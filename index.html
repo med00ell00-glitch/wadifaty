@@ -4,20 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-function searchJobs() {
-    let input = document.getElementById('searchBox').value.toLowerCase();
-    let jobs = document.querySelectorAll('.job-item'); // الحويجات أو المباريات في الصفحة
-    
-    jobs.forEach(job => {
-        let text = job.textContent.toLowerCase();
-        if (text.includes(input)) {
-            job.style.display = "";
-        } else {
-            job.style.display = "none";
-        }
-    });
-}
 </script>
    <!-- خانة البحث السريع -->
 <div style="text-align: center; margin: 20px auto; padding: 10px;">
