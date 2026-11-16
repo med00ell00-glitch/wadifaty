@@ -2,10 +2,12 @@ const express = require('express');
 const path = require('path');
 
 const app = express();
-const PORT = 3000;
 
-app.use(express.static(path.join(__dirname, 'public')));
+// قراءة الملفات مباشرة من نفس المجلد
+app.use(express.static(__dirname));
 
-app.listen(PORT, () => {
-  console.log(`سيرفر Wadifaty.ma شغال على الرابط: http://localhost:${PORT}`);
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
+
+module.exports = app;
