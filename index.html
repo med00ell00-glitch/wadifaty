@@ -4,6 +4,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+function searchJobs() {
+    let input = document.getElementById('searchBox').value.toLowerCase();
+    let jobs = document.querySelectorAll('.job-item'); // الحويجات أو المباريات في الصفحة
+    
+    jobs.forEach(job => {
+        let text = job.textContent.toLowerCase();
+        if (text.includes(input)) {
+            job.style.display = "";
+        } else {
+            job.style.display = "none";
+        }
+    });
+}
+</script>
+    <title>Wadifaty.ma - بوابة التوظيف بالمغرب</title>
     <!-- خانة البحث السريع -->
 <div style="text-align: center; margin: 20px auto; padding: 10px;">
     <input type="text" id="searchBox" placeholder="ابحث عن مباراة أو قطاع (مثلاً: الصحة، الداخلية...)" onkeyup="searchJobs()" style="width: 80%; max-width: 500px; padding: 12px; font-size: 16px; border: 2px solid #007bff; border-radius: 25px; outline: none; text-align: right;">
@@ -24,7 +40,6 @@ function searchJobs() {
     });
 }
 </script>
-    <title>Wadifaty.ma - بوابة التوظيف بالمغرب</title>
     <!-- رابط الأيقونات -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
