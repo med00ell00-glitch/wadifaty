@@ -326,39 +326,108 @@
     </footer>
 
     <script>
+    let allJobs = [];
     let selectedCategory = 'all';
+
+    async function loadJobs() {
+        try {
+            const response = await fetch('./jobs.json?v=' + Date.now());
+            allJobs = await response.json();
+            renderJobs();
+        } catch (error) {
+            const list = document.getElementById('jobsList');
+            if (list) {
+                list.innerHTML = '<div class="no-results" style="display:block;">تعذر تحميل قائمة المباريات حالياً.</div>';
+            }
+        }
+    }
+
+    function escapeAttr(str) {
+        return String(str || '')
+            .replace(/&/g, '&amp;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+    }
+
+    function renderJobs() {
+        const searchEl = document.getElementById('searchBox');
+        const input = searchEl ? searchEl.value.toLowerCase().trim() : '';
+        let container = document.getElementById('jobsList');
+
+        if (!container) {
+            const mainContainer = document.querySelector('.container');
+            if (!mainContainer) return;
+            container = document.createElement('div');
+            container.id = 'jobsList';
+            const contactBox = mainContainer.lastElementChild;
+            mainContainer.insertBefore(container, contactBox);
+        }
+
+        const filtered = allJobs.filter(job => {
+            const combinedText = `${job.title || ''} ${job.category || ''} ${job.org || ''} ${job.deadline || ''} ${job.status || ''}`.toLowerCase();
+            const matchesSearch = combinedText.includes(input);
+            const matchesCategory = (selectedCategory === 'all') ||
+                (job.category && job.category.includes(selectedCategory)) ||
+                combinedText.includes(selectedCategory.toLowerCase());
+            return matchesSearch && matchesCategory;
+        });
+
+        const noResultsEl = document.getElementById('noResults');
+        if (noResultsEl) {
+            noResultsEl.style.display = filtered.length === 0 ? "block" : "none";
+        }
+
+        container.innerHTML = filtered.map(job => `
+            <div class="job-card" data-category="${escapeAttr(job.category)}">
+                <div class="card-top">
+                    <h3 class="job-title">${escapeAttr(job.title)}</h3>
+                    <span class="badge-open">${escapeAttr(job.status || 'مفتوح للترشيح')}</span>
+                </div>
+                <div class="job-info">
+                    <p><strong>المؤسسة:</strong> ${escapeAttr(job.org)}</p>
+                    <p><strong>آخر أجل لإيداع الترشيحات:</strong> ${escapeAttr(job.deadline)}</p>
+                </div>
+                <button type="button" class="btn"
+                    data-title="${escapeAttr(job.title)}"
+                    data-org="${escapeAttr(job.org)}"
+                    data-deadline="${escapeAttr(job.deadline)}"
+                    data-req="${escapeAttr(job.req)}"
+                    data-url="${escapeAttr(job.applyUrl || 'https://www.emploi-public.ma')}"
+                    onclick="openJobFromBtn(this)">إقرا التفاصيل وسجل</button>
+            </div>
+        `).join('');
+    }
 
     function setCategory(category, btnElement) {
         selectedCategory = category;
         document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
         if (btnElement) btnElement.classList.add('active');
-        filterJobs();
+        renderJobs();
     }
 
     function filterJobs() {
-        let input = document.getElementById('searchBox').value.toLowerCase().trim();
-        let jobs = document.querySelectorAll('.job-card');
-        let visibleCount = 0;
-
-        jobs.forEach(job => {
-            let text = job.textContent.toLowerCase();
-            let category = job.getAttribute('data-category') || '';
-            let matchesSearch = text.includes(input);
-            let matchesCategory = (selectedCategory === 'all') || text.includes(selectedCategory.toLowerCase()) || category.includes(selectedCategory);
-            let show = matchesSearch && matchesCategory;
-            job.style.display = show ? "" : "none";
-            if (show) visibleCount++;
-        });
-
-        document.getElementById('noResults').style.display = visibleCount === 0 ? "block" : "none";
+        renderJobs();
     }
 
-    function openJobModal(title, org, deadline, req) {
+    function openJobFromBtn(btn) {
+        openJobModal(
+            btn.getAttribute('data-title'),
+            btn.getAttribute('data-org'),
+            btn.getAttribute('data-deadline'),
+            btn.getAttribute('data-req'),
+            btn.getAttribute('data-url')
+        );
+    }
+
+    function openJobModal(title, org, deadline, req, applyUrl) {
         localStorage.setItem('selectedJob', JSON.stringify({
             title: title,
             org: org,
             deadline: deadline,
-            req: req
+            req: req,
+            applyUrl: applyUrl || 'https://www.emploi-public.ma'
         }));
 
         document.getElementById('modalTitle').textContent = title;
@@ -375,6 +444,8 @@
     function closeModalOnBackdrop(event) {
         if (event.target.id === 'jobModal') closeJobModal();
     }
+
+    loadJobs();
     </script>
 </body>
 </html>
