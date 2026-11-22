@@ -241,7 +241,7 @@
         <h1>Wadifaty.ma</h1>
         <p>البوابة الأولى لمتابعة مباريات التوظيف بالمغرب</p>
         <div style="margin-top: 15px; padding: 0 5px;">
-            <input type="text" id="searchBox" class="search-box" placeholder="ابحث عن مباراة أو قطاع (مثلاً: الصحة، التعليم، 11...)" onkeyup="filterJobs()">
+            <input type="text" id="searchBox" class="search-box" placeholder="ابحث عن مباراة أو قطاع (مثلاً: الصحة، التعليم، القانون، 11...)" onkeyup="filterJobs()">
         </div>
     </header>
 
@@ -259,41 +259,7 @@
             لا توجد مباريات مطابقة للبحث أو التصنيف المختار حالياً.
         </div>
 
-        <div class="job-card" data-category="عمومية">
-            <div class="card-top">
-                <h3 class="job-title">مباراة توظيف متصرفين من الدرجة الثانية (سلم 11)</h3>
-                <span class="badge-open">مفتوح للترشيح</span>
-            </div>
-            <div class="job-info">
-                <p><strong>المؤسسة:</strong> قطاعات وزارية مختلفة</p>
-                <p><strong>آخر أجل لإيداع الترشيحات:</strong> 30 نونبر 2026</p>
-            </div>
-            <button type="button" class="btn" onclick="openJobModal('مباراة توظيف متصرفين من الدرجة الثانية (سلم 11)', 'قطاعات وزارية مختلفة', '30 نونبر 2026', 'الحصول على الإجازة أو ماستر أو شهادة معترف بها مع استيفاء الشروط النظامية للتوظيف في الدرجة الثانية.')">إقرا التفاصيل وسجل</button>
-        </div>
-
-        <div class="job-card" data-category="الصحة">
-            <div class="card-top">
-                <h3 class="job-title">مباراة توظيف تقنيين من الدرجة الثالثة (سلم 9)</h3>
-                <span class="badge-open">مفتوح للترشيح</span>
-            </div>
-            <div class="job-info">
-                <p><strong>المؤسسة:</strong> وزارة الصحة والحماية الاجتماعية</p>
-                <p><strong>آخر أجل لإيداع الترشيحات:</strong> 05 دجنبر 2026</p>
-            </div>
-            <button type="button" class="btn" onclick="openJobModal('مباراة توظيف تقنيين من الدرجة الثالثة (سلم 9)', 'وزارة الصحة والحماية الاجتماعية', '05 دجنبر 2026', 'الحصول على دبلوم التقني المتخصص المسلم من طرف مؤسسات التكوين المهني أو شهادة معادلة في التخصص المطلوب.')">إقرا التفاصيل وسجل</button>
-        </div>
-
-        <div class="job-card" data-category="التعليم">
-            <div class="card-top">
-                <h3 class="job-title">مباريات ولوج مراكز التكوين التربوي</h3>
-                <span class="badge-open">مفتوح للترشيح</span>
-            </div>
-            <div class="job-info">
-                <p><strong>المؤسسة:</strong> وزارة التربية الوطنية والتعليم الأولي والرياضة</p>
-                <p><strong>آخر أجل لإيداع الترشيحات:</strong> قريباً</p>
-            </div>
-            <button type="button" class="btn" onclick="openJobModal('مباريات ولوج مراكز التكوين التربوي', 'وزارة التربية الوطنية والتعليم الأولي والرياضة', 'قريباً', 'التوفر على الشهادة الجامعية المطلوبة حسب التخصص والالتزام بالضوابط المحددة في قرار المباراة.')">إقرا التفاصيل وسجل</button>
-        </div>
+        <div id="jobsList"></div>
 
         <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); margin-top: 20px;">
             <h3 style="color: #1e3d59; margin-top: 0;"><i class="fa-solid fa-envelope"></i> اتصل بنا</h3>
@@ -307,145 +273,4 @@
             <button type="button" class="modal-close" onclick="closeJobModal()">&times;</button>
             <h3 id="modalTitle"></h3>
             <p><strong>المؤسسة:</strong> <span id="modalOrg"></span></p>
-            <p><strong>آخر أجل لإيداع الترشيحات:</strong> <span id="modalDeadline"></span></p>
-            <p><strong>شروط الترشيح الأساسية:</strong> <span id="modalReq"></span></p>
-            <div class="modal-actions">
-                <a href="job-details.html" class="btn btn-secondary">الذهاب لصفحة التسجيل والتفاصيل</a>
-                <button type="button" class="btn" onclick="closeJobModal()">إغلاق</button>
-            </div>
-        </div>
-    </div>
-
-    <footer>
-        <p style="margin: 0 0 10px; font-size: 14px;">جميع الحقوق محفوظة &copy; 2026 - Wadifaty.ma</p>
-        <div>
-            <a href="index.html">الرئيسية</a>
-            <a href="about.html">من نحن</a>
-            <a href="contact.html">اتصل بنا</a>
-        </div>
-    </footer>
-
-    <script>
-    let allJobs = [];
-    let selectedCategory = 'all';
-
-    async function loadJobs() {
-        try {
-            const response = await fetch('./jobs.json?v=' + Date.now());
-            allJobs = await response.json();
-            renderJobs();
-        } catch (error) {
-            const list = document.getElementById('jobsList');
-            if (list) {
-                list.innerHTML = '<div class="no-results" style="display:block;">تعذر تحميل قائمة المباريات حالياً.</div>';
-            }
-        }
-    }
-
-    function escapeAttr(str) {
-        return String(str || '')
-            .replace(/&/g, '&amp;')
-            .replace(/"/g, '&quot;')
-            .replace(/'/g, '&#39;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;');
-    }
-
-    function renderJobs() {
-        const searchEl = document.getElementById('searchBox');
-        const input = searchEl ? searchEl.value.toLowerCase().trim() : '';
-        let container = document.getElementById('jobsList');
-
-        if (!container) {
-            const mainContainer = document.querySelector('.container');
-            if (!mainContainer) return;
-            container = document.createElement('div');
-            container.id = 'jobsList';
-            const contactBox = mainContainer.lastElementChild;
-            mainContainer.insertBefore(container, contactBox);
-        }
-
-        const filtered = allJobs.filter(job => {
-            const combinedText = `${job.title || ''} ${job.category || ''} ${job.org || ''} ${job.deadline || ''} ${job.status || ''}`.toLowerCase();
-            const matchesSearch = combinedText.includes(input);
-            const matchesCategory = (selectedCategory === 'all') ||
-                (job.category && job.category.includes(selectedCategory)) ||
-                combinedText.includes(selectedCategory.toLowerCase());
-            return matchesSearch && matchesCategory;
-        });
-
-        const noResultsEl = document.getElementById('noResults');
-        if (noResultsEl) {
-            noResultsEl.style.display = filtered.length === 0 ? "block" : "none";
-        }
-
-        container.innerHTML = filtered.map(job => `
-            <div class="job-card" data-category="${escapeAttr(job.category)}">
-                <div class="card-top">
-                    <h3 class="job-title">${escapeAttr(job.title)}</h3>
-                    <span class="badge-open">${escapeAttr(job.status || 'مفتوح للترشيح')}</span>
-                </div>
-                <div class="job-info">
-                    <p><strong>المؤسسة:</strong> ${escapeAttr(job.org)}</p>
-                    <p><strong>آخر أجل لإيداع الترشيحات:</strong> ${escapeAttr(job.deadline)}</p>
-                </div>
-                <button type="button" class="btn"
-                    data-title="${escapeAttr(job.title)}"
-                    data-org="${escapeAttr(job.org)}"
-                    data-deadline="${escapeAttr(job.deadline)}"
-                    data-req="${escapeAttr(job.req)}"
-                    data-url="${escapeAttr(job.applyUrl || 'https://www.emploi-public.ma')}"
-                    onclick="openJobFromBtn(this)">إقرا التفاصيل وسجل</button>
-            </div>
-        `).join('');
-    }
-
-    function setCategory(category, btnElement) {
-        selectedCategory = category;
-        document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-        if (btnElement) btnElement.classList.add('active');
-        renderJobs();
-    }
-
-    function filterJobs() {
-        renderJobs();
-    }
-
-    function openJobFromBtn(btn) {
-        openJobModal(
-            btn.getAttribute('data-title'),
-            btn.getAttribute('data-org'),
-            btn.getAttribute('data-deadline'),
-            btn.getAttribute('data-req'),
-            btn.getAttribute('data-url')
-        );
-    }
-
-    function openJobModal(title, org, deadline, req, applyUrl) {
-        localStorage.setItem('selectedJob', JSON.stringify({
-            title: title,
-            org: org,
-            deadline: deadline,
-            req: req,
-            applyUrl: applyUrl || 'https://www.emploi-public.ma'
-        }));
-
-        document.getElementById('modalTitle').textContent = title;
-        document.getElementById('modalOrg').textContent = org;
-        document.getElementById('modalDeadline').textContent = deadline;
-        document.getElementById('modalReq').textContent = req;
-        document.getElementById('jobModal').style.display = 'flex';
-    }
-
-    function closeJobModal() {
-        document.getElementById('jobModal').style.display = 'none';
-    }
-
-    function closeModalOnBackdrop(event) {
-        if (event.target.id === 'jobModal') closeJobModal();
-    }
-
-    loadJobs();
-    </script>
-</body>
-</html>
+            <p><strong>آخر أجل لإ
