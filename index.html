@@ -27,10 +27,43 @@
             margin: 8px 0 0;
             font-size: 16px;
         }
-        .container {
+        .search-box {
             width: 80%;
+            max-width: 500px;
+            padding: 12px 18px;
+            font-size: 16px;
+            border: none;
+            border-radius: 25px;
+            outline: none;
+            text-align: right;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .container {
+            width: 85%;
             max-width: 900px;
             margin: 30px auto;
+        }
+        .filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .filter-btn {
+            background-color: white;
+            color: #1e3d59;
+            border: 1px solid #1e3d59;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+        .filter-btn.active,
+        .filter-btn:hover {
+            background-color: #1e3d59;
+            color: white;
         }
         .job-card {
             background-color: white;
@@ -71,7 +104,11 @@
         footer a {
             color: white;
             text-decoration: none;
-            margin: 0 10px;
+            margin: 0 12px;
+            font-weight: bold;
+        }
+        footer a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -80,15 +117,23 @@
         <h1>Wadifaty.ma</h1>
         <p>البوابة الأولى لمتابعة مباريات التوظيف بالمغرب</p>
         <div style="margin-top: 15px;">
-            <input type="text" id="searchBox" placeholder="ابحث عن مباراة أو قطاع (مثلاً: الصحة، الداخلية...)" onkeyup="searchJobs()" style="width: 80%; max-width: 500px; padding: 12px; font-size: 16px; border: none; border-radius: 25px; outline: none; text-align: right; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
+            <input type="text" id="searchBox" class="search-box" placeholder="ابحث عن مباراة أو قطاع (مثلاً: الصحة، الداخلية...)" onkeyup="filterJobs()">
         </div>
     </header>
 
     <div class="container">
         <h2>أحدث الإعلانات والتوظيفات</h2>
 
+        <!-- أزرار التصفية السريعة -->
+        <div class="filter-bar">
+            <button type="button" class="filter-btn active" onclick="setCategory('all', this)">الكل</button>
+            <button type="button" class="filter-btn" onclick="setCategory('عمومية', this)">وظائف عمومية</button>
+            <button type="button" class="filter-btn" onclick="setCategory('الصحة', this)">الصحة</button>
+            <button type="button" class="filter-btn" onclick="setCategory('التعليم', this)">التعليم</button>
+        </div>
+
         <!-- الوظيفة الأولى -->
-        <div class="job-card">
+        <div class="job-card" data-category="عمومية">
             <h3 class="job-title">مباراة توظيف متصرفين من الدرجة الثانية (سلم 11)</h3>
             <div class="job-info">
                 <p><strong>المؤسسة:</strong> قطاعات وزارية مختلفة</p>
@@ -98,7 +143,7 @@
         </div>
 
         <!-- الوظيفة الثانية -->
-        <div class="job-card">
+        <div class="job-card" data-category="الصحة">
             <h3 class="job-title">مباراة توظيف تقنيين من الدرجة الثالثة (سلم 9)</h3>
             <div class="job-info">
                 <p><strong>المؤسسة:</strong> وزارة الصحة والحماية الاجتماعية</p>
@@ -124,12 +169,33 @@
     </footer>
 
     <script>
-    function searchJobs() {
-        let input = document.getElementById('searchBox').value.toLowerCase();
+    let selectedCategory = 'all';
+
+    function setCategory(category, btnElement) {
+        selectedCategory = category;
+
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        if (btnElement) {
+            btnElement.classList.add('active');
+        }
+
+        filterJobs();
+    }
+
+    function filterJobs() {
+        let input = document.getElementById('searchBox').value.toLowerCase().trim();
         let jobs = document.querySelectorAll('.job-card');
+
         jobs.forEach(job => {
             let text = job.textContent.toLowerCase();
-            if (text.includes(input)) {
+            let category = job.getAttribute('data-category') || '';
+
+            let matchesSearch = text.includes(input);
+            let matchesCategory = (selectedCategory === 'all') || text.includes(selectedCategory.toLowerCase()) || category.includes(selectedCategory);
+
+            if (matchesSearch && matchesCategory) {
                 job.style.display = "";
             } else {
                 job.style.display = "none";
