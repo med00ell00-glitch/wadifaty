@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>من نحن - Wadifaty.ma</title>
-    <!-- رابط الأيقونات -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
             font-family: Tahoma, sans-serif;
@@ -17,61 +15,82 @@
         header {
             background-color: #1e3d59;
             color: white;
-            padding: 25px;
+            padding: 20px;
             text-align: center;
         }
+        header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
         .container {
-            width: 80%;
+            width: 88%;
+            max-width: 850px;
             margin: 30px auto;
-            background: white;
-            padding: 30px;
+        }
+        .card {
+            background-color: white;
+            padding: 24px;
             border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
         }
-        h2 {
-            color: #1e3d59;
+        .card h2 {
             margin-top: 0;
+            color: #1e3d59;
+            font-size: 21px;
         }
-        p {
-            color: #555;
-            line-height: 1.8;
-            font-size: 16px;
+        .card p {
+            color: #444;
+            font-size: 15px;
+            line-height: 1.7;
         }
-        .btn-back {
+        .btn {
             display: inline-block;
-            margin-top: 20px;
+            margin-top: 15px;
+            padding: 10px 18px;
             background-color: #1e3d59;
             color: white;
-            padding: 10px 20px;
             text-decoration: none;
             border-radius: 5px;
             font-weight: bold;
+            font-size: 14px;
         }
-        .btn-back:hover {
-            background-color: #142a3d;
+        footer {
+            background-color: #1e3d59;
+            color: white;
+            text-align: center;
+            padding: 18px;
+            margin-top: 40px;
+        }
+        footer a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
-
     <header>
         <h1>Wadifaty.ma</h1>
-        <p>بوابة التوظيف بالمغرب</p>
+        <p>من نحن</p>
     </header>
 
     <div class="container">
-        <h2><i class="fa-solid fa-circle-info"></i> من نحن</h2>
-        <p>مرحباً بكم في موقع <strong>Wadifaty.ma</strong>، بوابتكم الأولى لمتابعة والاطلاع على أحدث مباريات التوظيف، المباريات العمومية، ومباريات الوظائف بالمغرب.</p>
-        <p>هدفنا الأساسي هو تقريب المعلومة وتسهيل الوصول إلى إعلانات المباريات الرسمية، وتوجيه المترشحين نحو البوابات الرسمية الخاصة بوضع الترشيحات بكل شفافية ومصداقية.</p>
-        <p>نعمل باستمرار على تحديث العروض والوظائف لتكونوا أول من يعلم بكل جديد على الساحة المهنية والوظيفة العمومية بالمملكة.</p>
-        
-        <a href="index.html" class="btn-back"><i class="fa-solid fa-arrow-right"></i> العودة إلى الصفحة الرئيسية</a>
+        <div class="card">
+            <h2>عن بوابة Wadifaty.ma</h2>
+            <p>منصة <strong>Wadifaty.ma</strong> تهدف إلى تسهيل متابعة إعلانات ومباريات التوظيف بالمغرب بطريقة سريعة، واضحة، ومنظمة بعيداً عن التعقيد والازدحام.</p>
+            <p>نحرص على عرض المعلومات الأساسية لكل مباراة (المؤسسة، آخر أجل للترشيح، والشروط الأولية) لمساعدة الباحثين عن فرص العمل على الوصول للمعلومة بسهولة.</p>
+            <a href="index.html" class="btn">الرجوع إلى الصفحة الرئيسية</a>
+        </div>
     </div>
 
-    <!-- تذييل الصفحة -->
-    <footer style="background-color: #1e3d59; color: white; text-align: center; padding: 20px; margin-top: 40px; border-top: 4px solid #142a3d;">
-        <p style="margin: 0; font-size: 14px;">جميع الحقوق محفوظة &copy; 2026 - Wadifaty.ma</p>
+    <footer>
+        <p style="margin: 0 0 8px; font-size: 14px;">جميع الحقوق محفوظة &copy; 2026 - Wadifaty.ma</p>
+        <div>
+            <a href="index.html">الرئيسية</a>
+            <a href="about.html">من نحن</a>
+            <a href="contact.html">اتصل بنا</a>
+        </div>
     </footer>
-
 </body>
 </html>
