@@ -16,4 +16,14 @@ app.get('/job-details.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'job-details.html'));
 });
 
+// صفحة من نحن
+app.get('/about.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'about.html'));
+});
+
+// صفحة اتصل بنا
+app.get('/contact.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'contact.html'));
+});
+
 module.exports = app;
