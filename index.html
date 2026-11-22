@@ -130,4 +130,279 @@
         .info-box {
             background: white;
             padding: 18px;
-            border-radius
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+            margin-top: 18px;
+        }
+        .info-box h3 { color: #1e3d59; margin-top: 0; }
+        .info-box p { color: #555; margin: 0; line-height: 1.6; }
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.55);
+            z-index: 999;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+        }
+        .modal-box {
+            background: white;
+            width: 100%;
+            max-width: 540px;
+            border-radius: 10px;
+            padding: 22px;
+            text-align: right;
+            position: relative;
+        }
+        .modal-close {
+            position: absolute;
+            top: 12px;
+            left: 14px;
+            border: none;
+            background: #eee;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        footer {
+            background: #1e3d59;
+            color: white;
+            text-align: center;
+            padding: 18px 15px;
+            margin-top: 36px;
+        }
+        footer a { color: white; text-decoration: none; margin: 0 10px; font-weight: bold; }
+        @media (max-width: 768px) {
+            .filter-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 600px) {
+            .container { width: 94%; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Wadifaty.ma</h1>
+        <p>البوابة الأولى لمتابعة مباريات التوظيف بالمغرب</p>
+        <input type="text" id="searchBox" class="search-box" placeholder="ابحث عن مباراة، وزارة أو تخصص..." onkeyup="renderJobs()">
+    </header>
+
+    <div class="container">
+        <h2 class="section-heading">تصفح حسب الوزارة والقطاع</h2>
+
+        <div class="filter-grid">
+            <button type="button" class="sector-card active" onclick="setCategory('all', this)">
+                <i class="fa-solid fa-layer-group"></i>
+                <span class="sector-title">الكل</span>
+                <span class="sector-sub">جميع المباريات المتوفرة</span>
+            </button>
+            <button type="button" class="sector-card" onclick="setCategory('الداخلية', this)">
+                <i class="fa-solid fa-landmark-flag"></i>
+                <span class="sector-title">الداخلية والجماعات الترابية</span>
+                <span class="sector-sub">الإدارة الترابية والقانون العام</span>
+            </button>
+            <button type="button" class="sector-card" onclick="setCategory('القضائ', this)">
+                <i class="fa-solid fa-scale-balanced"></i>
+                <span class="sector-title">العدل والمهن القضائية</span>
+                <span class="sector-sub">المنتدبون والمساعدون القانونيون</span>
+            </button>
+            <button type="button" class="sector-card" onclick="setCategory('الصحة', this)">
+                <i class="fa-solid fa-heart-pulse"></i>
+                <span class="sector-title">الصحة والحماية الاجتماعية</span>
+                <span class="sector-sub">الأطر الصحية والتقنية</span>
+            </button>
+            <button type="button" class="sector-card" onclick="setCategory('التعليم', this)">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span class="sector-title">التربية الوطنية والتعليم</span>
+                <span class="sector-sub">التكوين والأساتذة والأطر</span>
+            </button>
+            <button type="button" class="sector-card" onclick="setCategory('عمومية', this)">
+                <i class="fa-solid fa-building-columns"></i>
+                <span class="sector-title">الإدارات والمؤسسات العمومية</span>
+                <span class="sector-sub">المتصرفون والمناصب الإدارية</span>
+            </button>
+        </div>
+
+        <div id="ministryBar" class="ministry-bar">
+            <span id="ministryBarText"></span>
+            <a id="ministryBarLink" href="#" target="_blank" rel="noopener noreferrer" class="ministry-link">الموقع الرسمي للوزارة</a>
+        </div>
+
+        <div id="noResults" class="no-results">لا توجد مباريات مطابقة حالياً.</div>
+        <div id="jobsList"></div>
+
+        <div id="about" class="info-box">
+            <h3>من نحن</h3>
+            <p>Wadifaty.ma منصة لتتبع إعلانات مباريات التوظيف العمومي بالمغرب وتسهيل الوصول إلى تفاصيلها والروابط الرسمية.</p>
+        </div>
+
+        <div id="contact" class="info-box">
+            <h3>اتصل بنا</h3>
+            <p>للاستفسار أو التواصل: <strong>contact@wadifaty.ma</strong></p>
+        </div>
+    </div>
+
+    <div id="jobModal" class="modal-overlay" onclick="if(event.target.id==='jobModal') closeModal()">
+        <div class="modal-box">
+            <button type="button" class="modal-close" onclick="closeModal()">&times;</button>
+            <h3 id="modalTitle" style="color: #1e3d59; margin-top: 0;"></h3>
+            <p id="modalOrgRow"><strong>الوزارة / المؤسسة:</strong> <span id="modalOrg"></span></p>
+            <p id="modalDeadlineRow"><strong>آخر أجل:</strong> <span id="modalDeadline"></span></p>
+            <p id="modalReqRow"><strong>شروط الترشيح:</strong> <span id="modalReq"></span></p>
+            <div style="margin-top: 14px; display: flex; gap: 8px; flex-wrap: wrap;">
+                <a id="modalApplyLink" href="https://www.emploi-public.ma/ar/" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">الذهاب إلى إعلان المباراة</a>
+                <button type="button" class="btn" onclick="closeModal()">إغلاق</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p style="margin: 0 0 8px; font-size: 13.5px;">جميع الحقوق محفوظة &copy; 2026 - Wadifaty.ma</p>
+        <div>
+            <a href="index.html">الرئيسية</a>
+            <a href="about.html">من نحن</a>
+            <a href="contact.html">اتصل بنا</a>
+        </div>
+    </footer>
+
+    <script>
+    var DEFAULT_URL = "https://www.emploi-public.ma/ar/";
+    var ministries = {
+        "القضائ": { name: "وزارة العدل (justice.gov.ma)", url: "https://justice.gov.ma" },
+        "الصحة": { name: "وزارة الصحة والحماية الاجتماعية (sante.gov.ma)", url: "https://www.sante.gov.ma" },
+        "التعليم": { name: "وزارة التربية الوطنية والتعليم الأولي والرياضة (men.gov.ma)", url: "http://www.men.gov.ma" }
+    };
+    var fallbackJobs = [
+        {
+            title: "مباراة توظيف محرر قضائي من الدرجة الثالثة (سلم 9)",
+            category: "القضائية",
+            org: "وزارة العدل",
+            deadline: "",
+            req: "التخصصات المطلوبة: الهندسة المدنية أو الأشغال الكبرى أو الأشغال العمومية، أو الهندسة الكهربائية (30 منصباً - توظيف نظامي - رمز المباراة: 44743/26).",
+            applyUrl: "https://www.emploi-public.ma/ar/تفاصيل/المباريات/f13bac44-60cc-4ed5-897a-905111afbeb2"
+        },
+        {
+            title: "مباراة توظيف متصرفين من الدرجة الثانية (تخصص القانون العام والإدارة الترابية)",
+            category: "الداخلية",
+            org: "وزارة الداخلية / الجماعات الترابية والمؤسسات العمومية",
+            deadline: "",
+            req: "الحصول على الإجازة أو ماستر في القانون العام أو العلوم القانونية أو ما يعادلها.",
+            applyUrl: DEFAULT_URL
+        },
+        {
+            title: "مباراة توظيف تقنيين من الدرجة الثالثة (سلم 9)",
+            category: "الصحة",
+            org: "وزارة الصحة والحماية الاجتماعية",
+            deadline: "05 دجنبر 2026",
+            req: "دبلوم التقني المتخصص أو شهادة معادلة في التخصص المطلوب.",
+            applyUrl: DEFAULT_URL
+        },
+        {
+            title: "مباراة توظيف متصرفين من الدرجة الثانية (سلم 11)",
+            category: "عمومية",
+            org: "إدارات ومؤسسات عمومية مختلفة",
+            deadline: "30 نونبر 2026",
+            req: "الحصول على الإجازة أو ماستر أو شهادة معترف بها.",
+            applyUrl: DEFAULT_URL
+        }
+    ];
+    var jobsData = fallbackJobs.slice();
+    var currentCat = "all";
+
+    function esc(s) {
+        return String(s || "")
+            .replace(/&/g, "&amp;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#39;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;");
+    }
+
+    function updateMinistry() {
+        var bar = document.getElementById("ministryBar");
+        var m = ministries[currentCat];
+        if (m) {
+            document.getElementById("ministryBarText").textContent = "الموقع الرسمي للقطاع: " + m.name;
+            document.getElementById("ministryBarLink").href = m.url;
+            bar.style.display = "flex";
+        } else {
+            bar.style.display = "none";
+        }
+    }
+
+    function renderJobs() {
+        var q = (document.getElementById("searchBox").value || "").toLowerCase().trim();
+        var list = document.getElementById("jobsList");
+        var filtered = jobsData.filter(function(j) {
+            var txt = ((j.title || "") + " " + (j.category || "") + " " + (j.org || "") + " " + (j.deadline || "") + " " + (j.req || "")).toLowerCase();
+            var okCat = currentCat === "all" || txt.indexOf(currentCat.toLowerCase()) !== -1;
+            return okCat && txt.indexOf(q) !== -1;
+        });
+        document.getElementById("noResults").style.display = filtered.length ? "none" : "block";
+        list.innerHTML = filtered.map(function(j) {
+            return '<div class="job-card">' +
+                '<h3 class="job-title">' + esc(j.title) + '</h3>' +
+                (j.org ? '<p><strong>الوزارة / المؤسسة:</strong> ' + esc(j.org) + '</p>' : '') +
+                (j.deadline ? '<p><strong>آخر أجل:</strong> ' + esc(j.deadline) + '</p>' : '') +
+                '<button type="button" class="btn" ' +
+                    'data-title="' + esc(j.title) + '" ' +
+                    'data-org="' + esc(j.org) + '" ' +
+                    'data-deadline="' + esc(j.deadline) + '" ' +
+                    'data-req="' + esc(j.req) + '" ' +
+                    'data-url="' + esc(j.applyUrl || DEFAULT_URL) + '" ' +
+                    'onclick="openModalFromBtn(this)">إقرا التفاصيل وسجل</button>' +
+            '</div>';
+        }).join("");
+    }
+
+    function setCategory(cat, el) {
+        currentCat = cat;
+        var cards = document.querySelectorAll(".sector-card");
+        for (var i = 0; i < cards.length; i++) {
+            cards[i].classList.remove("active");
+        }
+        if (el) el.classList.add("active");
+        updateMinistry();
+        renderJobs();
+    }
+
+    function openModalFromBtn(b) {
+        document.getElementById("modalTitle").textContent = b.getAttribute("data-title") || "";
+        var org = b.getAttribute("data-org") || "";
+        var dl = b.getAttribute("data-deadline") || "";
+        var req = b.getAttribute("data-req") || "";
+        document.getElementById("modalOrg").textContent = org;
+        document.getElementById("modalOrgRow").style.display = org ? "block" : "none";
+        document.getElementById("modalDeadline").textContent = dl;
+        document.getElementById("modalDeadlineRow").style.display = dl ? "block" : "none";
+        document.getElementById("modalReq").textContent = req;
+        document.getElementById("modalReqRow").style.display = req ? "block" : "none";
+        document.getElementById("modalApplyLink").href = b.getAttribute("data-url") || DEFAULT_URL;
+        document.getElementById("jobModal").style.display = "flex";
+    }
+
+    function closeModal() {
+        document.getElementById("jobModal").style.display = "none";
+    }
+
+    function initJobs() {
+        updateMinistry();
+        renderJobs();
+        fetch("./jobs.json?v=" + Date.now())
+            .then(function(res) { return res.ok ? res.json() : null; })
+            .then(function(json) {
+                if (Array.isArray(json) && json.length > 0) {
+                    jobsData = json;
+                    renderJobs();
+                }
+            })
+            .catch(function() {});
+    }
+
+    initJobs();
+    </script>
+</body>
+</html>
