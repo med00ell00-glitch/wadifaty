@@ -11,99 +11,86 @@
             margin: 0;
             padding: 0;
             direction: rtl;
-            text-align: right;
         }
         header {
-            background-color: #007bff;
+            background-color: #1e3d59;
             color: white;
             padding: 20px;
             text-align: center;
         }
+        header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
         .container {
-            max-width: 600px;
-            margin: 40px auto;
-            background: white;
-            padding: 30px;
+            width: 88%;
+            max-width: 850px;
+            margin: 30px auto;
+        }
+        .card {
+            background-color: white;
+            padding: 24px;
             border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
         }
-        h2 {
-            color: #333;
-            margin-bottom: 20px;
+        .card h2 {
+            margin-top: 0;
+            color: #1e3d59;
+            font-size: 21px;
         }
-        .form-group {
-            margin-bottom: 20px;
+        .card p {
+            color: #444;
+            font-size: 15px;
+            line-height: 1.7;
         }
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: #555;
-        }
-        input, textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 16px;
-        }
-        button {
-            background-color: #007bff;
+        .btn {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 18px;
+            background-color: #1e3d59;
             color: white;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            width: 100%;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        .back-link {
-            display: block;
-            text-align: center;
-            margin-top: 20px;
-            color: #007bff;
             text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 14px;
         }
-        .back-link:hover {
-            text-decoration: underline;
+        footer {
+            background-color: #1e3d59;
+            color: white;
+            text-align: center;
+            padding: 18px;
+            margin-top: 40px;
+        }
+        footer a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
-
     <header>
         <h1>Wadifaty.ma</h1>
-        <p>البوابة الأولى لمتابعة مباريات التوظيف بالمغرب</p>
+        <p>اتصل بنا</p>
     </header>
 
     <div class="container">
-        <h2>اتصل بنا</h2>
-        <p>عندك شي استفسار، ملاحظة، أو بغيت تواصل معنا بخصوص إعلان معين؟ متترددش تكتب لينا رسالة.</p>
-        
-        <form action="#" method="POST">
-            <div class="form-group">
-                <label for="name">الاسم الكامل:</label>
-                <input type="text" id="name" name="name" required placeholder="أدخل اسمك الكامل">
-            </div>
-
-            <div class="form-group">
-                <label for="email">البريد الإلكتروني:</label>
-                <input type="email" id="email" name="email" required placeholder="name@example.com">
-            </div>
-
-            <div class="form-group">
-                <label for="message">الرسالة:</label>
-                <textarea id="message" name="message" rows="5" required placeholder="اكتب رسالتك هنا..."></textarea>
-            </div>
-
-            <button type="submit">إرسال الرسالة</button>
-        </form>
-
-        <a href="index.html" class="back-link">← العودة إلى الصفحة الرئيسية</a>
+        <div class="card">
+            <h2>تواصل معنا</h2>
+            <p>لأي استفسار، اقتراح، أو ملاحظة بخصوص المنصة أو الإعلانات المنشورة، يمكنكم التواصل معنا عبر البريد الإلكتروني الرسمي:</p>
+            <p style="direction: ltr; text-align: right;"><strong>contact@wadifaty.ma</strong></p>
+            <a href="index.html" class="btn">الرجوع إلى الصفحة الرئيسية</a>
+        </div>
     </div>
 
+    <footer>
+        <p style="margin: 0 0 8px; font-size: 14px;">جميع الحقوق محفوظة &copy; 2026 - Wadifaty.ma</p>
+        <div>
+            <a href="index.html">الرئيسية</a>
+            <a href="about.html">من نحن</a>
+            <a href="contact.html">اتصل بنا</a>
+        </div>
+    </footer>
 </body>
 </html>
