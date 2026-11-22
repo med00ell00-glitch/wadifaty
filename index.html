@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wadifaty.ma - البوابة الأولى لمتابعة مباريات التوظيف بالمغرب</title>
+    <link rel="icon" href="data:,">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * { box-sizing: border-box; }
@@ -15,147 +16,122 @@
             direction: rtl;
         }
         header {
-            background: linear-gradient(135deg, #16324f 0%, #1e3d59 60%, #274c77 100%);
+            background-color: #1e3d59;
             color: white;
-            padding: 28px 15px;
+            padding: 26px 15px;
             text-align: center;
         }
-        header h1 { margin: 0; font-size: 32px; }
-        header p { margin: 8px 0 0; font-size: 16px; }
+        header h1 { margin: 0; font-size: 30px; }
+        header p { margin: 8px 0 0; font-size: 15px; }
         .search-box {
             width: 100%;
-            max-width: 540px;
-            padding: 12px 18px;
-            font-size: 15px;
+            max-width: 520px;
+            padding: 11px 16px;
+            font-size: 14px;
             border: none;
             border-radius: 25px;
             outline: none;
             text-align: right;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.22);
+            margin-top: 14px;
         }
         .container {
             width: 90%;
-            max-width: 940px;
-            margin: 30px auto;
+            max-width: 920px;
+            margin: 26px auto;
         }
         .section-heading {
             margin: 0 0 14px;
             color: #1e3d59;
-            font-size: 21px;
+            font-size: 20px;
         }
         .filter-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 14px;
+            gap: 12px;
             margin-bottom: 16px;
         }
         .sector-card {
-            background-color: white;
+            background: white;
             color: #1e3d59;
             border: 2px solid #dce5ee;
-            border-radius: 12px;
-            padding: 18px 14px;
+            border-radius: 10px;
+            padding: 16px 12px;
             cursor: pointer;
             text-align: center;
-            transition: all 0.2s ease;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            gap: 8px;
-            min-height: 105px;
+            gap: 6px;
         }
-        .sector-card i { font-size: 24px; color: #1e3d59; }
-        .sector-title { font-size: 14px; font-weight: bold; line-height: 1.35; }
-        .sector-sub { font-size: 11.5px; color: #5a6b7c; line-height: 1.3; }
-        .sector-card:hover { border-color: #1e3d59; transform: translateY(-2px); }
+        .sector-card i { font-size: 22px; }
+        .sector-title { font-size: 13.5px; font-weight: bold; }
+        .sector-sub { font-size: 11px; color: #5a6b7c; }
         .sector-card.active {
-            background-color: #1e3d59;
+            background: #1e3d59;
             border-color: #1e3d59;
             color: white;
         }
-        .sector-card.active i,
         .sector-card.active .sector-sub { color: #e8f0f8; }
-
         .ministry-bar {
             display: none;
-            background-color: white;
+            background: white;
             border: 1px solid #dce5ee;
             border-right: 4px solid #1b6b3a;
-            border-radius: 10px;
-            padding: 12px 16px;
-            margin-bottom: 22px;
+            border-radius: 8px;
+            padding: 12px 15px;
+            margin-bottom: 20px;
             align-items: center;
             justify-content: space-between;
-            gap: 12px;
+            gap: 10px;
             flex-wrap: wrap;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
-        }
-        .ministry-bar-text {
-            font-size: 13.5px;
-            color: #2c3e50;
         }
         .ministry-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background-color: #1b6b3a;
+            background: #1b6b3a;
             color: white;
             text-decoration: none;
-            padding: 8px 14px;
+            padding: 7px 13px;
             border-radius: 6px;
             font-size: 13px;
             font-weight: bold;
         }
-        .ministry-link:hover { background-color: #13502b; }
-
         .job-card {
-            background-color: white;
-            padding: 20px;
+            background: white;
+            padding: 18px;
             border-radius: 10px;
-            margin-bottom: 18px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+            margin-bottom: 16px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
             border-right: 4px solid #1e3d59;
         }
-        .card-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        .badge-open {
-            background-color: #e6f4ea;
-            color: #137333;
-            font-size: 12px;
-            font-weight: bold;
-            padding: 5px 11px;
-            border-radius: 15px;
-            white-space: nowrap;
-        }
-        .job-title { margin: 0 0 10px; color: #1e3d59; font-size: 19px; line-height: 1.4; }
-        .job-info p { margin: 6px 0; color: #444; font-size: 14px; }
+        .job-title { margin: 0 0 8px; color: #1e3d59; font-size: 18px; }
+        .job-card p { margin: 5px 0; color: #444; font-size: 14px; }
         .btn {
             display: inline-block;
-            margin-top: 12px;
-            padding: 10px 18px;
-            background-color: #1e3d59;
+            margin-top: 10px;
+            padding: 9px 16px;
+            background: #1e3d59;
             color: white;
             border: none;
-            text-decoration: none;
             border-radius: 6px;
             font-weight: bold;
-            font-size: 14px;
+            font-size: 13.5px;
             cursor: pointer;
-            text-align: center;
+            text-decoration: none;
         }
-        .btn-secondary { background-color: #1b6b3a; }
+        .btn-secondary { background: #1b6b3a; }
+        .no-results {
+            display: none;
+            background: white;
+            padding: 18px;
+            border-radius: 8px;
+            text-align: center;
+            color: #555;
+            margin-bottom: 18px;
+        }
         .modal-overlay {
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.58);
+            background: rgba(0,0,0,0.55);
             z-index: 999;
             justify-content: center;
             align-items: center;
@@ -164,20 +140,74 @@
         .modal-box {
             background: white;
             width: 100%;
-            max-width: 560px;
-            max-height: 90vh;
-            overflow-y: auto;
+            max-width: 540px;
             border-radius: 10px;
-            padding: 24px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+            padding: 22px;
             text-align: right;
             position: relative;
         }
         .modal-close {
             position: absolute;
-            top: 14px;
-            left: 16px;
-            background: #f0f2f5;
+            top: 12px;
+            left: 14px;
             border: none;
-            width: 32px;
-            height: 32
+            background: #eee;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        footer {
+            background: #1e3d59;
+            color: white;
+            text-align: center;
+            padding: 18px 15px;
+            margin-top: 36px;
+        }
+        footer a { color: white; text-decoration: none; margin: 0 10px; font-weight: bold; }
+        @media (max-width: 768px) {
+            .filter-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 600px) {
+            .container { width: 94%; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Wadifaty.ma</h1>
+        <p>البوابة الأولى لمتابعة مباريات التوظيف بالمغرب</p>
+        <input type="text" id="searchBox" class="search-box" placeholder="ابحث عن مباراة، وزارة أو تخصص..." onkeyup="renderJobs()">
+    </header>
+
+    <div class="container">
+        <h2 class="section-heading">تصفح حسب الوزارة والقطاع</h2>
+
+        <div class="filter-grid">
+            <button type="button" class="sector-card active" onclick="setCategory('all', this)">
+                <i class="fa-solid fa-layer-group"></i>
+                <span class="sector-title">الكل</span>
+                <span class="sector-sub">جميع المباريات المتوفرة</span>
+            </button>
+            <button type="button" class="sector-card" onclick="setCategory('الداخلية', this)">
+                <i class="fa-solid fa-landmark-flag"></i>
+                <span class="sector-title">الداخلية والجماعات الترابية</span>
+                <span class="sector-sub">الإدارة الترابية والقانون العام</span>
+            </button>
+            <button type="button" class="sector-card" onclick="setCategory('القضائ', this)">
+                <i class="fa-solid fa-scale-balanced"></i>
+                <span class="sector-title">العدل والمهن القضائية</span>
+                <span class="sector-sub">المنتدبون والمساعدون القانونيون</span>
+            </button>
+            <button type="button" class="sector-card" onclick="setCategory('الصحة', this)">
+                <i class="fa-solid fa-heart-pulse"></i>
+                <span class="sector-title">الصحة والحماية الاجتماعية</span>
+                <span class="sector-sub">الأطر الصحية والتقنية</span>
+            </button>
+            <button type="button" class="sector-card" onclick="setCategory('التعليم', this)">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span class="sector-title">التربية الوطنية والتعليم</span>
+                <span class="sector-sub">التكوين والأساتذة والأطر</span>
+            </button>
+            <button type="button" class="sector-card" onclick="setCategory('عمومية', this
