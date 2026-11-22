@@ -7,7 +7,7 @@
 <script>
 function searchJobs() {
     let input = document.getElementById('searchBox').value.toLowerCase();
-    let jobs = document.querySelectorAll('.job-item'); // الحويجات أو المباريات في الصفحة
+    let jobs = document.querySelectorAll('.job-card'); // الحويجات أو المباريات في الصفحة
     
     jobs.forEach(job => {
         let text = job.textContent.toLowerCase();
