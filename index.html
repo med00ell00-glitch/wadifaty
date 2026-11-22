@@ -116,12 +116,11 @@
         }
         .btn-secondary {
             background-color: #2e6f40;
-            margin-right: 8px;
+            margin-left: 8px;
         }
         .btn-secondary:hover {
             background-color: #225430;
         }
-        /* نافذة التفاصيل */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -196,7 +195,6 @@
     <div class="container">
         <h2>أحدث الإعلانات والتوظيفات</h2>
 
-        <!-- أزرار التصفية السريعة -->
         <div class="filter-bar">
             <button type="button" class="filter-btn active" onclick="setCategory('all', this)">الكل</button>
             <button type="button" class="filter-btn" onclick="setCategory('عمومية', this)">وظائف عمومية</button>
@@ -204,7 +202,6 @@
             <button type="button" class="filter-btn" onclick="setCategory('التعليم', this)">التعليم</button>
         </div>
 
-        <!-- الوظيفة الأولى -->
         <div class="job-card" data-category="عمومية">
             <div class="card-top">
                 <h3 class="job-title">مباراة توظيف متصرفين من الدرجة الثانية (سلم 11)</h3>
@@ -214,7 +211,99 @@
                 <p><strong>المؤسسة:</strong> قطاعات وزارية مختلفة</p>
                 <p><strong>آخر أجل لإيداع الترشيحات:</strong> 30 نونبر 2026</p>
             </div>
-            <button type="button" class="btn" onclick="openJobModal(
-                'مباراة توظيف متصرفين من الدرجة الثانية (سلم 11)',
-                'قطاعات وزارية مختلفة',
-                '30
+            <button type="button" class="btn" onclick="openJobModal('مباراة توظيف متصرفين من الدرجة الثانية (سلم 11)', 'قطاعات وزارية مختلفة', '30 نونبر 2026', 'الحصول على الإجازة أو ماستر أو شهادة معترف بها مع استيفاء الشروط النظامية للتوظيف في الدرجة الثانية.')">إقرا التفاصيل وسجل</button>
+        </div>
+
+        <div class="job-card" data-category="الصحة">
+            <div class="card-top">
+                <h3 class="job-title">مباراة توظيف تقنيين من الدرجة الثالثة (سلم 9)</h3>
+                <span class="badge-open">مفتوح للترشيح</span>
+            </div>
+            <div class="job-info">
+                <p><strong>المؤسسة:</strong> وزارة الصحة والحماية الاجتماعية</p>
+                <p><strong>آخر أجل لإيداع الترشيحات:</strong> 05 دجنبر 2026</p>
+            </div>
+            <button type="button" class="btn" onclick="openJobModal('مباراة توظيف تقنيين من الدرجة الثالثة (سلم 9)', 'وزارة الصحة والحماية الاجتماعية', '05 دجنبر 2026', 'الحصول على دبلوم التقني المتخصص المسلم من طرف مؤسسات التكوين المهني أو شهادة معادلة في التخصص المطلوب.')">إقرا التفاصيل وسجل</button>
+        </div>
+
+        <div class="job-card" data-category="التعليم">
+            <div class="card-top">
+                <h3 class="job-title">مباريات ولوج مراكز التكوين التربوي</h3>
+                <span class="badge-open">مفتوح للترشيح</span>
+            </div>
+            <div class="job-info">
+                <p><strong>المؤسسة:</strong> وزارة التربية الوطنية والتعليم الأولي والرياضة</p>
+                <p><strong>آخر أجل لإيداع الترشيحات:</strong> قريباً</p>
+            </div>
+            <button type="button" class="btn" onclick="openJobModal('مباريات ولوج مراكز التكوين التربوي', 'وزارة التربية الوطنية والتعليم الأولي والرياضة', 'قريباً', 'التوفر على الشهادة الجامعية المطلوبة حسب التخصص والالتزام بالضوابط المحددة في قرار المباراة.')">إقرا التفاصيل وسجل</button>
+        </div>
+
+        <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); margin-top: 20px;">
+            <h3 style="color: #1e3d59; margin-top: 0;"><i class="fa-solid fa-envelope"></i> اتصل بنا</h3>
+            <p style="color: #555; line-height: 1.6;">إذا كانت لديك أي استفسارات أو ترغب في التواصل معنا، يمكنك مراسلتنا عبر البريد الإلكتروني التالي:</p>
+            <p style="direction: ltr; text-align: right;"><strong>contact@wadifaty.ma</strong></p>
+        </div>
+    </div>
+
+    <div id="jobModal" class="modal-overlay" onclick="closeModalOnBackdrop(event)">
+        <div class="modal-box">
+            <button type="button" class="modal-close" onclick="closeJobModal()">&times;</button>
+            <h3 id="modalTitle"></h3>
+            <p><strong>المؤسسة:</strong> <span id="modalOrg"></span></p>
+            <p><strong>آخر أجل لإيداع الترشيحات:</strong> <span id="modalDeadline"></span></p>
+            <p><strong>شروط الترشيح الأساسية:</strong> <span id="modalReq"></span></p>
+            <div style="margin-top: 18px;">
+                <a href="job-details.html" class="btn btn-secondary">الذهاب لصفحة التسجيل والتفاصيل</a>
+                <button type="button" class="btn" onclick="closeJobModal()">إغلاق</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p style="margin: 0 0 10px; font-size: 14px;">جميع الحقوق محفوظة &copy; 2026 - Wadifaty.ma</p>
+        <div>
+            <a href="about.html">من نحن</a>
+            <a href="contact.html">اتصل بنا</a>
+        </div>
+    </footer>
+
+    <script>
+    let selectedCategory = 'all';
+
+    function setCategory(category, btnElement) {
+        selectedCategory = category;
+        document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+        if (btnElement) btnElement.classList.add('active');
+        filterJobs();
+    }
+
+    function filterJobs() {
+        let input = document.getElementById('searchBox').value.toLowerCase().trim();
+        let jobs = document.querySelectorAll('.job-card');
+        jobs.forEach(job => {
+            let text = job.textContent.toLowerCase();
+            let category = job.getAttribute('data-category') || '';
+            let matchesSearch = text.includes(input);
+            let matchesCategory = (selectedCategory === 'all') || text.includes(selectedCategory.toLowerCase()) || category.includes(selectedCategory);
+            job.style.display = (matchesSearch && matchesCategory) ? "" : "none";
+        });
+    }
+
+    function openJobModal(title, org, deadline, req) {
+        document.getElementById('modalTitle').textContent = title;
+        document.getElementById('modalOrg').textContent = org;
+        document.getElementById('modalDeadline').textContent = deadline;
+        document.getElementById('modalReq').textContent = req;
+        document.getElementById('jobModal').style.display = 'flex';
+    }
+
+    function closeJobModal() {
+        document.getElementById('jobModal').style.display = 'none';
+    }
+
+    function closeModalOnBackdrop(event) {
+        if (event.target.id === 'jobModal') closeJobModal();
+    }
+    </script>
+</body>
+</html>
