@@ -210,4 +210,33 @@
                 <span class="sector-title">التربية الوطنية والتعليم</span>
                 <span class="sector-sub">التكوين والأساتذة والأطر</span>
             </button>
-            <button type="button" class="sector-card" onclick="setCategory('عمومية', this
+            <button type="button" class="sector-card" onclick="setCategory('عمومية', this)">
+                <i class="fa-solid fa-building-columns"></i>
+                <span class="sector-title">الإدارات والمؤسسات العمومية</span>
+                <span class="sector-sub">المتصرفون والمناصب الإدارية</span>
+            </button>
+        </div>
+
+        <div id="ministryBar" class="ministry-bar">
+            <span id="ministryBarText"></span>
+            <a id="ministryBarLink" href="#" target="_blank" rel="noopener noreferrer" class="ministry-link">الموقع الرسمي للوزارة</a>
+        </div>
+
+        <div id="noResults" class="no-results">لا توجد مباريات مطابقة حالياً.</div>
+        <div id="jobsList"></div>
+
+        <div style="background: white; padding: 18px; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.06); margin-top: 20px;">
+            <h3 style="color: #1e3d59; margin-top: 0;">اتصل بنا</h3>
+            <p style="color: #555; margin: 0;">للاستفسار أو التواصل: <strong>contact@wadifaty.ma</strong></p>
+        </div>
+    </div>
+
+    <div id="jobModal" class="modal-overlay" onclick="if(event.target.id==='jobModal') closeModal()">
+        <div class="modal-box">
+            <button type="button" class="modal-close" onclick="closeModal()">&times;</button>
+            <h3 id="modalTitle" style="color: #1e3d59; margin-top: 0;"></h3>
+            <p id="modalOrgRow"><strong>الوزارة / المؤسسة:</strong> <span id="modalOrg"></span></p>
+            <p id="modalDeadlineRow"><strong>آخر أجل:</strong> <span id="modalDeadline"></span></p>
+            <p id="modalReqRow"><strong>شروط الترشيح:</strong> <span id="modalReq"></span></p>
+            <div style="margin-top: 14px; display: flex; gap: 8px; flex-wrap: wrap;">
+                <a id="modalApplyLink" href="https://www.emploi-public.ma/ar/" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">الذهاب إلى إعلان المباراة</a>
