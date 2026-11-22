@@ -1,41 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script>
-function searchJobs() {
-    let input = document.getElementById('searchBox').value.toLowerCase();
-    let jobs = document.querySelectorAll('.job-card'); // الحويجات أو المباريات في الصفحة
-    
-    jobs.forEach(job => {
-        let text = job.textContent.toLowerCase();
-        if (text.includes(input)) {
-            job.style.display = "";
-        } else {
-            job.style.display = "none";
-        }
-    });
-}
-</script>
-    <title>Wadifaty.ma - بوابة التوظيف بالمغرب</title>
-<script>
-function searchJobs() {
-    let input = document.getElementById('searchBox').value.toLowerCase();
-    let jobs = document.querySelectorAll('.job-item'); // الحويجات أو المباريات في الصفحة
-    
-    jobs.forEach(job => {
-        let text = job.textContent.toLowerCase();
-        if (text.includes(input)) {
-            job.style.display = "";
-        } else {
-            job.style.display = "none";
-        }
-    });
-}
-</script>
-    <!-- رابط الأيقونات -->
+    <title>Wadifaty.ma - البوابة الأولى لمتابعة مباريات التوظيف بالمغرب</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
@@ -51,50 +19,69 @@ function searchJobs() {
             padding: 25px;
             text-align: center;
         }
+        header h1 {
+            margin: 0;
+            font-size: 32px;
+        }
+        header p {
+            margin: 8px 0 0;
+            font-size: 16px;
+        }
         .container {
             width: 80%;
+            max-width: 900px;
             margin: 30px auto;
         }
         .job-card {
-            background: white;
+            background-color: white;
             padding: 20px;
-            margin-bottom: 20px;
             border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            border-right: 5px solid #1e3d59;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
         }
         .job-title {
+            margin: 0 0 10px;
             color: #1e3d59;
-            margin-top: 0;
+            font-size: 20px;
         }
-        .job-info {
-            color: #555;
-            margin-bottom: 15px;
-            line-height: 1.6;
+        .job-info p {
+            margin: 6px 0;
+            color: #444;
         }
         .btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 18px;
             background-color: #1e3d59;
             color: white;
-            padding: 8px 15px;
             text-decoration: none;
             border-radius: 5px;
-            display: inline-block;
             font-weight: bold;
         }
         .btn:hover {
             background-color: #142a3d;
         }
+        footer {
+            background-color: #1e3d59;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+        footer a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+        }
     </style>
 </head>
 <body>
-
-</div>
     <header>
         <h1>Wadifaty.ma</h1>
         <p>البوابة الأولى لمتابعة مباريات التوظيف بالمغرب</p>
         <div style="margin-top: 15px;">
-        <input type="text" id="searchBox" placeholder="ابحث عن مباراة أو قطاع (مثلاً: الصحة، الداخلية...)" onkeyup="searchJobs()" style="width: 80%; max-width: 500px; padding: 12px; font-size: 16px; border: none; border-radius: 25px; outline: none; text-align: right; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
-    </div>
+            <input type="text" id="searchBox" placeholder="ابحث عن مباراة أو قطاع (مثلاً: الصحة، الداخلية...)" onkeyup="searchJobs()" style="width: 80%; max-width: 500px; padding: 12px; font-size: 16px; border: none; border-radius: 25px; outline: none; text-align: right; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
+        </div>
     </header>
 
     <div class="container">
@@ -110,7 +97,7 @@ function searchJobs() {
             <a href="job-details.html" class="btn">إقرا التفاصيل وسجل</a>
         </div>
 
-        <!-- الوظيفة الثانية الجديدة -->
+        <!-- الوظيفة الثانية -->
         <div class="job-card">
             <h3 class="job-title">مباراة توظيف تقنيين من الدرجة الثالثة (سلم 9)</h3>
             <div class="job-info">
@@ -120,35 +107,35 @@ function searchJobs() {
             <a href="job-details.html" class="btn">إقرا التفاصيل وسجل</a>
         </div>
 
-</div>
+        <!-- قسم اتصل بنا -->
+        <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); margin-top: 20px;">
+            <h3 style="color: #1e3d59; margin-top: 0;"><i class="fa-solid fa-envelope"></i> اتصل بنا</h3>
+            <p style="color: #555; line-height: 1.6;">إذا كانت لديك أي استفسارات أو ترغب في التواصل معنا، يمكنك مراسلتنا عبر البريد الإلكتروني التالي:</p>
+            <p style="direction: ltr; text-align: right;"><strong>contact@wadifaty.ma</strong></p>
+        </div>
     </div>
-    <!-- قسم اتصل بنا -->
-    <div class="container" style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-top: 30px;">
-        <h3 style="color: #1e3d59; margin-top: 0;"><i class="fa-solid fa-envelope"></i> اتصل بنا</h3>
-        <p style="color: #555; line-height: 1.6;">إذا كانت لديك أي استفسارات أو ترغب في التواصل معنا، يمكنك مراسلتنا عبر البريد الإلكتروني التالي:</p>
-        <p style="direction: ltr; text-align: right;"><<strong>contact@wadifaty.ma</strong></p>
-    </div>
-<!-- Footer - تذييل الصفحة -->
-    <div style="text-align: center; padding: 15px; background-color: #f8f9fa; margin-top: 20px; border-top: 1px solid #ddd;">
-    <a href="contact.html" style="color: #007bff; text-decoration: none; font-weight: bold; font-size: 16px;">📞 اتصل بنا للإستفسار أو وضع الإعلانات</a>
-</div>
-    <footer style="background-color: #1e3d59; color: white; text-align: center; padding: 20px; margin-top: 40px; border-top: 4px solid #142a3d;">
-        <p style="margin: 0; font-size: 14px;">جميع الحقوق محفوظة &copy; 2026 - Wadifaty.ma</p>
-    <p style="margin-bottom: 10px;"><a href="about.html" style="color: white; text-decoration: none; font-weight: bold;"><i class="fa-solid fa-circle-info"></i> من نحن</a></p>
+
+    <footer>
+        <p style="margin: 0 0 10px; font-size: 14px;">جميع الحقوق محفوظة &copy; 2026 - Wadifaty.ma</p>
+        <div>
+            <a href="about.html">من نحن</a>
+            <a href="contact.html">اتصل بنا</a>
+        </div>
     </footer>
-   <script>
-function searchJobs() {
-    let input = document.getElementById('searchBox').value.toLowerCase();
-    let jobs = document.querySelectorAll('.job-item'); // الحويجات أو المباريات في الصفحة
-    
-    jobs.forEach(job => {
-        let text = job.textContent.toLowerCase();
-        if (text.includes(input)) {
-            job.style.display = "";
-        } else {
-            job.style.display = "none";
-        }
-    });
-}
-</script>
+
+    <script>
+    function searchJobs() {
+        let input = document.getElementById('searchBox').value.toLowerCase();
+        let jobs = document.querySelectorAll('.job-card');
+        jobs.forEach(job => {
+            let text = job.textContent.toLowerCase();
+            if (text.includes(input)) {
+                job.style.display = "";
+            } else {
+                job.style.display = "none";
+            }
+        });
+    }
+    </script>
+</body>
 </html>
