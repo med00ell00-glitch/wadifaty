@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تفاصيل الوظيفة - Wadifaty.ma</title>
-    <!-- رابط الأيقونات الاحترافية -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
@@ -20,72 +19,116 @@
             padding: 20px;
             text-align: center;
         }
+        header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
         .container {
-            width: 70%;
+            width: 88%;
+            max-width: 850px;
             margin: 30px auto;
-            background: white;
-            padding: 30px;
+        }
+        .card {
+            background-color: white;
+            padding: 24px;
             border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
         }
-        h2 {
+        .card h2 {
+            margin-top: 0;
             color: #1e3d59;
+            font-size: 21px;
         }
-        .details-box {
-            line-height: 1.8;
-            margin-bottom: 20px;
+        .card p, .card li {
+            color: #444;
+            font-size: 15px;
+            line-height: 1.7;
         }
-        .back-btn {
-            background-color: #6c757d;
+        .apply-box {
+            background-color: #eef4f9;
+            padding: 18px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        .btn {
+            display: inline-block;
+            margin-top: 12px;
+            margin-left: 10px;
+            padding: 10px 18px;
+            background-color: #1e3d59;
             color: white;
-            padding: 10px 15px;
             text-decoration: none;
             border-radius: 5px;
-            display: inline-block;
+            font-weight: bold;
+            font-size: 14px;
         }
-        .back-btn:hover {
-            background-color: #5a6268;
+        .btn-apply {
+            background-color: #2e6f40;
+        }
+        footer {
+            background-color: #1e3d59;
+            color: white;
+            text-align: center;
+            padding: 18px;
+            margin-top: 40px;
+        }
+        footer a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
-
     <header>
         <h1>Wadifaty.ma</h1>
-        <p>تفاصيل إعلان التوظيف</p>
+        <p>تفاصيل المباراة وإرشادات الترشيح</p>
     </header>
 
     <div class="container">
-        <h2>مباراة توظيف متصرفين من الدرجة الثانية</h2>
-        
-        <div class="details-box">
-            <p><strong>المؤسسة المصدرة للإعلان:</strong> قطاعات وزارية مختلفة</p>
-            <p><strong>الدرجة:</strong> متصرف من الدرجة الثانية (سلم 11)</p>
-            <p><strong>آخر أجل لإيداع الترشيحات:</strong> 30 نونبر 2026</p>
-            <p><strong>الشروط المطلوبة:</strong> الحصول على شهادة الماستر أو دبلوم الدراسات العليا المعمقة أو ما يعادلها في التخصصات المطلوبة.</p>
-            <p><strong>طريقة الترشيح:</strong> يتم ترشيح المترشحين عبر البوابة الإلكترونية للمؤسسة مع ضرورة تحميل الوثائق المطلوبة.</p>
-            <div style="margin: 20px 0; background-color: #e8f4fd; padding: 15px; border-radius: 5px; border-right: 4px solid #1e3d59;">
-            <p style="margin-bottom: 10px; color: #1e3d59;"><strong>رابط التسجيل الرسمي:</strong></p>
-            <a href="https://www.service-public.ma" target="_blank" style="background-color: #1e3d59; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block; font-weight: bold;">
-                <i class="fa-solid fa-arrow-up-right-from-square"></i> الرابط الرسمي للترشيح (اضغط هنا)
-            </a>
-        </div>
-        <!-- أزرار المشاركة الاحترافية -->
-        <div style="margin-top: 30px; border-top: 1px solid #ddd; padding-top: 15px;">
-            <p style="margin-bottom: 10px; color: #333;"><strong><i class="fa-solid fa-share-nodes"></i> مشاركة الإعلان:</strong></p>
-            
-            <a href="https://api.whatsapp.com/send?text=مباراة جديدة للتوظيف على موقع Wadifaty.ma" target="_blank" style="background-color: #25d366; color: white; padding: 8px 15px; text-decoration: none; border-radius: 5px; margin-left: 10px; display: inline-block; font-weight: bold;">
-                <i class="fa-brands fa-whatsapp"></i> واتساب
-            </a>
-            
-            <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:3000" target="_blank" style="background-color: #1877f2; color: white; padding: 8px 15px; text-decoration: none; border-radius: 5px; display: inline-block; font-weight: bold;">
-                <i class="fa-brands fa-facebook-f"></i> فيسبوك
-            </a>
-        </div>
+        <div class="card">
+            <h2 id="jobTitle">إعلان مباراة توظيف بالقطاع العمومي</h2>
+            <p><strong>المؤسسة المصدرة للإعلان:</strong> <span id="jobOrg">الإدارة / الوزارة المعنية</span></p>
+            <p><strong>آخر أجل لإيداع الترشيحات:</strong> <span id="jobDeadline">حسب قرار المباراة المعلن</span></p>
+            <p><strong>الشروط الأساسية للترشيح:</strong> <span id="jobReq">استيفاء الشروط النظامية والشهادة المطلوبة للمباراة.</span></p>
 
-        <br><br>
-        <a href="index.html" class="back-btn">← العودة إلى الصفحة الرئيسية</a>
+            <h3>خطوات الترشيح:</h3>
+            <ul>
+                <li>مراجعة شروط المباراة والوثائق المطلوبة بدقة قبل إرسال الملف.</li>
+                <li>الترشيح عبر البوابة الرسمية المخصصة للمباراة داخل الآجال المحددة.</li>
+            </ul>
+
+            <div class="apply-box">
+                <p style="margin-top: 0;"><strong>رابط التسجيل الرسمي:</strong></p>
+                <a href="https://www.emploi-public.ma" target="_blank" rel="noopener noreferrer" class="btn btn-apply">
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i> الرابط الرسمي للترشيح (اضغط هنا)
+                </a>
+                <a href="index.html" class="btn">الرجوع إلى الصفحة الرئيسية</a>
+            </div>
+        </div>
     </div>
 
+    <footer>
+        <p style="margin: 0 0 8px; font-size: 14px;">جميع الحقوق محفوظة &copy; 2026 - Wadifaty.ma</p>
+        <div>
+            <a href="index.html">الرئيسية</a>
+            <a href="about.html">من نحن</a>
+            <a href="contact.html">اتصل بنا</a>
+        </div>
+    </footer>
+
+    <script>
+    const savedJob = localStorage.getItem('selectedJob');
+    if (savedJob) {
+        try {
+            const job = JSON.parse(savedJob);
+            if (job.title) document.getElementById('jobTitle').textContent = job.title;
+            if (job.org) document.getElementById('jobOrg').textContent = job.org;
+            if (job.deadline) document.getElementById('jobDeadline').textContent = job.deadline;
+            if (job.req) document.getElementById('jobReq').textContent = job.req;
+        } catch (e) {}
+    }
+    </script>
 </body>
 </html>
