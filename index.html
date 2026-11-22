@@ -45,7 +45,7 @@
         }
         .container {
             width: 90%;
-            max-width: 920px;
+            max-width: 940px;
             margin: 30px auto;
         }
         .section-heading {
@@ -53,33 +53,62 @@
             color: #1e3d59;
             font-size: 21px;
         }
-        .filter-bar {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 22px;
+
+        /* كباين القطاعات والوزارات */
+        .filter-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-bottom: 26px;
         }
-        .filter-btn {
+        .sector-card {
             background-color: white;
             color: #1e3d59;
-            border: 1.5px solid #1e3d59;
-            padding: 9px 16px;
-            border-radius: 22px;
+            border: 2px solid #dce5ee;
+            border-radius: 12px;
+            padding: 18px 14px;
             cursor: pointer;
-            font-size: 13.5px;
-            font-weight: bold;
+            text-align: center;
             transition: all 0.2s ease;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-height: 105px;
         }
-        .filter-btn i {
-            margin-left: 6px;
+        .sector-card i {
+            font-size: 24px;
+            color: #1e3d59;
+            transition: color 0.2s ease;
         }
-        .filter-btn.active,
-        .filter-btn:hover {
+        .sector-title {
+            font-size: 14px;
+            font-weight: bold;
+            line-height: 1.35;
+        }
+        .sector-sub {
+            font-size: 11.5px;
+            color: #5a6b7c;
+            line-height: 1.3;
+        }
+        .sector-card:hover {
+            border-color: #1e3d59;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(30, 61, 89, 0.12);
+        }
+        .sector-card.active {
             background-color: #1e3d59;
+            border-color: #1e3d59;
             color: white;
-            transform: translateY(-1px);
+            box-shadow: 0 6px 14px rgba(30, 61, 89, 0.22);
         }
+        .sector-card.active i,
+        .sector-card.active .sector-sub {
+            color: #e8f0f8;
+        }
+
         .job-card {
             background-color: white;
             padding: 20px;
@@ -183,112 +212,4 @@
             margin: 8px 0;
             color: #444;
             font-size: 14px;
-            line-height: 1.65;
-        }
-        .modal-actions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 18px;
-        }
-        .modal-actions .btn {
-            margin-top: 0;
-        }
-        .no-results {
-            display: none;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            text-align: center;
-            color: #555;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-            margin-bottom: 20px;
-        }
-        footer {
-            background-color: #1e3d59;
-            color: white;
-            text-align: center;
-            padding: 20px 15px;
-            margin-top: 40px;
-        }
-        footer a {
-            color: white;
-            text-decoration: none;
-            margin: 0 12px;
-            font-weight: bold;
-        }
-        footer a:hover {
-            text-decoration: underline;
-        }
-
-        @media (max-width: 600px) {
-            header h1 {
-                font-size: 26px;
-            }
-            header p {
-                font-size: 14px;
-            }
-            .container {
-                width: 94%;
-                margin: 20px auto;
-            }
-            .job-card {
-                padding: 16px;
-            }
-            .job-title {
-                font-size: 17px;
-            }
-            .filter-btn {
-                padding: 8px 13px;
-                font-size: 12.5px;
-            }
-            .modal-box {
-                padding: 18px;
-            }
-            .modal-actions .btn {
-                flex: 1 1 100%;
-            }
-        }
-    </style>
-</head>
-<body>
-    <header>
-        <h1>Wadifaty.ma</h1>
-        <p>البوابة الأولى لمتابعة مباريات التوظيف بالمغرب</p>
-        <div style="margin-top: 15px; padding: 0 5px;">
-            <input type="text" id="searchBox" class="search-box" placeholder="ابحث عن مباراة، وزارة أو تخصص (الداخلية، القضاء، الصحة، التعليم...)" onkeyup="filterJobs()">
-        </div>
-    </header>
-
-    <div class="container">
-        <h2 class="section-heading">تصفح حسب الوزارة والقطاع</h2>
-
-        <div class="filter-bar">
-            <button type="button" class="filter-btn active" onclick="setCategory('all', this)"><i class="fa-solid fa-layer-group"></i> الكل</button>
-            <button type="button" class="filter-btn" onclick="setCategory('الداخلية', this)"><i class="fa-solid fa-landmark-flag"></i> الداخلية والجماعات الترابية</button>
-            <button type="button" class="filter-btn" onclick="setCategory('القضائ', this)"><i class="fa-solid fa-scale-balanced"></i> العدل والمهن القضائية</button>
-            <button type="button" class="filter-btn" onclick="setCategory('الصحة', this)"><i class="fa-solid fa-heart-pulse"></i> الصحة والحماية الاجتماعية</button>
-            <button type="button" class="filter-btn" onclick="setCategory('التعليم', this)"><i class="fa-solid fa-graduation-cap"></i> التربية الوطنية والتعليم</button>
-            <button type="button" class="filter-btn" onclick="setCategory('عمومية', this)"><i class="fa-solid fa-building-columns"></i> الإدارات والمؤسسات العمومية</button>
-        </div>
-
-        <div id="noResults" class="no-results">
-            لا توجد مباريات مطابقة للبحث أو القطاع المختار حالياً.
-        </div>
-
-        <div id="jobsList"></div>
-
-        <div style="background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); margin-top: 20px;">
-            <h3 style="color: #1e3d59; margin-top: 0;"><i class="fa-solid fa-envelope"></i> اتصل بنا</h3>
-            <p style="color: #555; line-height: 1.6;">إذا كانت لديك أي استفسارات أو ترغب في التواصل معنا، يمكنك مراسلتنا عبر البريد الإلكتروني التالي:</p>
-            <p style="direction: ltr; text-align: right;"><strong>contact@wadifaty.ma</strong></p>
-        </div>
-    </div>
-
-    <div id="jobModal" class="modal-overlay" onclick="closeModalOnBackdrop(event)">
-        <div class="modal-box">
-            <button type="button" class="modal-close" onclick="closeJobModal()">&times;</button>
-            <h3 id="modalTitle"></h3>
-            <p id="modalOrgRow"><strong>الوزارة / المؤسسة:</strong> <span id="modalOrg"></span></p>
-            <p id="modalDeadlineRow"><strong>آخر أجل لإيداع الترشيحات:</strong> <span id="modalDeadline"></span></p>
-            <p id="modalReqRow
+            line-
