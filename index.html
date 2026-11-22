@@ -267,7 +267,7 @@
         </div>
     </footer>
 
-    <script>
+   <script>
     let selectedCategory = 'all';
 
     function setCategory(category, btnElement) {
@@ -290,6 +290,13 @@
     }
 
     function openJobModal(title, org, deadline, req) {
+        localStorage.setItem('selectedJob', JSON.stringify({
+            title: title,
+            org: org,
+            deadline: deadline,
+            req: req
+        }));
+
         document.getElementById('modalTitle').textContent = title;
         document.getElementById('modalOrg').textContent = org;
         document.getElementById('modalDeadline').textContent = deadline;
