@@ -6,9 +6,7 @@
     <title>Wadifaty.ma - البوابة الأولى لمتابعة مباريات التوظيف بالمغرب</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * {
-            box-sizing: border-box;
-        }
+        * { box-sizing: border-box; }
         body {
             font-family: Tahoma, sans-serif;
             background-color: #f4f7f6;
@@ -22,14 +20,8 @@
             padding: 28px 15px;
             text-align: center;
         }
-        header h1 {
-            margin: 0;
-            font-size: 32px;
-        }
-        header p {
-            margin: 8px 0 0;
-            font-size: 16px;
-        }
+        header h1 { margin: 0; font-size: 32px; }
+        header p { margin: 8px 0 0; font-size: 16px; }
         .search-box {
             width: 100%;
             max-width: 540px;
@@ -74,33 +66,17 @@
             gap: 8px;
             min-height: 105px;
         }
-        .sector-card i {
-            font-size: 24px;
-            color: #1e3d59;
-        }
-        .sector-title {
-            font-size: 14px;
-            font-weight: bold;
-            line-height: 1.35;
-        }
-        .sector-sub {
-            font-size: 11.5px;
-            color: #5a6b7c;
-            line-height: 1.3;
-        }
-        .sector-card:hover {
-            border-color: #1e3d59;
-            transform: translateY(-2px);
-        }
+        .sector-card i { font-size: 24px; color: #1e3d59; }
+        .sector-title { font-size: 14px; font-weight: bold; line-height: 1.35; }
+        .sector-sub { font-size: 11.5px; color: #5a6b7c; line-height: 1.3; }
+        .sector-card:hover { border-color: #1e3d59; transform: translateY(-2px); }
         .sector-card.active {
             background-color: #1e3d59;
             border-color: #1e3d59;
             color: white;
         }
         .sector-card.active i,
-        .sector-card.active .sector-sub {
-            color: #e8f0f8;
-        }
+        .sector-card.active .sector-sub { color: #e8f0f8; }
         .job-card {
             background-color: white;
             padding: 20px;
@@ -125,6 +101,344 @@
             border-radius: 15px;
             white-space: nowrap;
         }
-        .job-title {
-            margin: 0 0 10px;
-            color: #1e3d59;
+        .job-title { margin: 0 0 10px; color: #1e3d59; font-size: 19px; line-height: 1.4; }
+        .job-info p { margin: 6px 0; color: #444; font-size: 14px; }
+        .btn {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 10px 18px;
+            background-color: #1e3d59;
+            color: white;
+            border: none;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            text-align: center;
+        }
+        .btn-secondary { background-color: #1b6b3a; }
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.58);
+            z-index: 999;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+        }
+        .modal-box {
+            background: white;
+            width: 100%;
+            max-width: 560px;
+            max-height: 90vh;
+            overflow-y: auto;
+            border-radius: 10px;
+            padding: 24px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+            text-align: right;
+            position: relative;
+        }
+        .modal-close {
+            position: absolute;
+            top: 14px;
+            left: 16px;
+            background: #f0f2f5;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-size: 18px;
+            cursor: pointer;
+            color: #333;
+        }
+        .modal-box h3 { margin: 0 0 12px; color: #1e3d59; padding-left: 34px; line-height: 1.4; }
+        .modal-box p { margin: 8px 0; color: #444; font-size: 14px; line-height: 1.65; }
+        .modal-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+        .modal-actions .btn { margin-top: 0; }
+        .no-results {
+            display: none;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            color: #555;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+            margin-bottom: 20px;
+        }
+        footer {
+            background-color: #1e3d59;
+            color: white;
+            text-align: center;
+            padding: 20px 15px;
+            margin-top: 40px;
+        }
+        footer a { color: white; text-decoration: none; margin: 0 12px; font-weight: bold; }
+        @media (max-width: 768px) {
+            .filter-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        }
+        @media (max-width: 600px) {
+            header h1 { font-size: 26px; }
+            .container { width: 94%; margin: 20px auto; }
+            .sector-card { padding: 14px 10px; min-height: 92px; }
+            .modal-actions .btn { flex: 1 1 100%; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Wadifaty.ma</h1>
+        <p>البوابة الأولى لمتابعة مباريات التوظيف بالمغرب</p>
+        <div style="margin-top: 15px; padding: 0 5px;">
+            <input type="text" id="searchBox" class="search-box" placeholder="ابحث عن مباراة، وزارة أو تخصص (الداخلية، القضاء، الصحة، التعليم...)" onkeyup="filterJobs()">
+        </div>
+    </header>
+
+    <div class="container">
+        <h2 class="section-heading">تصفح حسب الوزارة والقطاع</h2>
+
+        <div class="filter-grid">
+            <button type="button" class="sector-card active" onclick="setCategory('all', this)">
+                <i class="fa-solid fa-layer-group"></i>
+                <span class="sector-title">الكل</span>
+                <span class="sector-sub">جميع المباريات المتوفرة</span>
+            </button>
+            <button type="button" class="sector-card" onclick="setCategory('الداخلية', this)">
+                <i class="fa-solid fa-landmark-flag"></i>
+                <span class="sector-title">الداخلية والجماعات الترابية</span>
+                <span class="sector-sub">الإدارة الترابية والقانون العام</span>
+            </button>
+            <button type="button" class="sector-card" onclick="setCategory('القضائ', this)">
+                <i class="fa-solid fa-scale-balanced"></i>
+                <span class="sector-title">العدل والمهن القضائية</span>
+                <span class="sector-sub">المنتدبون والمساعدون القانونيون</span>
+            </button>
+            <button type="button" class="sector-card" onclick="setCategory('الصحة', this)">
+                <i class="fa-solid fa-heart-pulse"></i>
+                <span class="sector-title">الصحة والحماية الاجتماعية</span>
+                <span class="sector-sub">الأطر الصحية والتقنية</span>
+            </button>
+            <button type="button" class="sector-card" onclick="setCategory('التعليم', this)">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span class="sector-title">التربية الوطنية والتعليم</span>
+                <span class="sector-sub">التكوين والأساتذة والأطر</span>
+            </button>
+            <button type="button" class="sector-card" onclick="setCategory('عمومية', this)">
+                <i class="fa-solid fa-building-columns"></i>
+                <span class="sector-title">الإدارات والمؤسسات العمومية</span>
+                <span class="sector-sub">المتصرفون والمناصب الإدارية</span>
+            </button>
+        </div>
+
+        <div id="noResults" class="no-results">
+            لا توجد مباريات مطابقة للبحث أو القطاع المختار حالياً.
+        </div>
+
+        <div id="jobsList"></div>
+
+        <div style="background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); margin-top: 20px;">
+            <h3 style="color: #1e3d59; margin-top: 0;"><i class="fa-solid fa-envelope"></i> اتصل بنا</h3>
+            <p style="color: #555; line-height: 1.6;">إذا كانت لديك أي استفسارات أو ترغب في التواصل معنا، يمكنك مراسلتنا عبر البريد الإلكتروني التالي:</p>
+            <p style="direction: ltr; text-align: right;"><strong>contact@wadifaty.ma</strong></p>
+        </div>
+    </div>
+
+    <div id="jobModal" class="modal-overlay" onclick="closeModalOnBackdrop(event)">
+        <div class="modal-box">
+            <button type="button" class="modal-close" onclick="closeJobModal()">&times;</button>
+            <h3 id="modalTitle"></h3>
+            <p id="modalOrgRow"><strong>الوزارة / المؤسسة:</strong> <span id="modalOrg"></span></p>
+            <p id="modalDeadlineRow"><strong>آخر أجل لإيداع الترشيحات:</strong> <span id="modalDeadline"></span></p>
+            <p id="modalReqRow"><strong>شروط الترشيح:</strong> <span id="modalReq"></span></p>
+            <div class="modal-actions">
+                <a id="modalApplyLink" href="https://www.emploi-public.ma/ar/" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+                    <i class="fa-solid fa-up-right-from-square"></i> الذهاب مباشرة إلى إعلان المباراة
+                </a>
+                <button type="button" class="btn" onclick="closeJobModal()">إغلاق</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p style="margin: 0 0 10px; font-size: 14px;">جميع الحقوق محفوظة &copy; 2026 - Wadifaty.ma</p>
+        <div>
+            <a href="index.html">الرئيسية</a>
+            <a href="about.html">من نحن</a>
+            <a href="contact.html">اتصل بنا</a>
+        </div>
+    </footer>
+
+    <script>
+    const DEFAULT_APPLY_URL = "https://www.emploi-public.ma/ar/";
+
+    const fallbackJobs = [
+        {
+            id: "admins-grade-2-2026",
+            title: "مباراة توظيف متصرفين من الدرجة الثانية (سلم 11)",
+            category: "عمومية",
+            status: "مفتوح للترشيح",
+            org: "إدارات ومؤسسات عمومية مختلفة",
+            deadline: "30 نونبر 2026",
+            req: "الحصول على الإجازة أو ماستر أو شهادة معترف بها مع استيفاء الشروط النظامية للتوظيف في الدرجة الثانية.",
+            applyUrl: DEFAULT_APPLY_URL
+        },
+        {
+            id: "techs-grade-3-2026",
+            title: "مباراة توظيف تقنيين من الدرجة الثالثة (سلم 9)",
+            category: "الصحة",
+            status: "مفتوح للترشيح",
+            org: "وزارة الصحة والحماية الاجتماعية",
+            deadline: "05 دجنبر 2026",
+            req: "الحصول على دبلوم التقني المتخصص المسلم من طرف مؤسسات التكوين المهني أو شهادة معادلة في التخصص المطلوب.",
+            applyUrl: DEFAULT_APPLY_URL
+        },
+        {
+            id: "law-admins-public-law-2026",
+            title: "مباراة توظيف متصرفين من الدرجة الثانية (تخصص القانون العام والإدارة الترابية)",
+            category: "الداخلية",
+            status: "مفتوح للترشيح",
+            org: "وزارة الداخلية / الجماعات الترابية والمؤسسات العمومية",
+            deadline: "",
+            req: "الحصول على الإجازة أو ماستر أو دبلوم الدراسات العليا المعمقة أو المتخصصة في القانون العام أو العلوم القانونية أو ما يعادلها.",
+            applyUrl: DEFAULT_APPLY_URL
+        },
+        {
+            id: "law-executors-judicial-admin-2026",
+            title: "مباراة توظيف منتدبين قضائيين ومساعدين إداريين وقانونيين",
+            category: "القضائية",
+            status: "مفتوح للترشيح",
+            org: "الإدارات والمؤسسات العمومية المعنية",
+            deadline: "",
+            req: "التوفر على شهادة الإجازة في القانون الخاص أو القانون العام أو دبلوم معترف بمعادلته حسب شروط المباراة.",
+            applyUrl: DEFAULT_APPLY_URL
+        }
+    ];
+
+    let allJobs = [];
+    let selectedCategory = 'all';
+
+    async function loadJobs() {
+        try {
+            const response = await fetch('./jobs.json?v=' + Date.now());
+            if (!response.ok) throw new Error('HTTP ' + response.status);
+            const data = await response.json();
+            allJobs = Array.isArray(data) && data.length > 0 ? data : fallbackJobs;
+        } catch (error) {
+            allJobs = fallbackJobs;
+        }
+        renderJobs();
+    }
+
+    function escapeAttr(str) {
+        return String(str || '')
+            .replace(/&/g, '&amp;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+    }
+
+    function renderJobs() {
+        const input = document.getElementById('searchBox').value.toLowerCase().trim();
+        const container = document.getElementById('jobsList');
+
+        const filtered = allJobs.filter(job => {
+            const combinedText = `${job.title || ''} ${job.category || ''} ${job.org || ''} ${job.deadline || ''} ${job.status || ''} ${job.req || ''}`.toLowerCase();
+            const matchesSearch = combinedText.includes(input);
+            const matchesCategory = (selectedCategory === 'all') ||
+                (job.category && job.category.toLowerCase().includes(selectedCategory.toLowerCase())) ||
+                combinedText.includes(selectedCategory.toLowerCase());
+            return matchesSearch && matchesCategory;
+        });
+
+        document.getElementById('noResults').style.display = filtered.length === 0 ? "block" : "none";
+
+        container.innerHTML = filtered.map(job => {
+            const orgHtml = job.org && job.org.trim()
+                ? `<p><strong>الوزارة / المؤسسة:</strong> ${escapeAttr(job.org)}</p>`
+                : '';
+            const deadlineHtml = job.deadline && job.deadline.trim()
+                ? `<p><strong>آخر أجل لإيداع الترشيحات:</strong> ${escapeAttr(job.deadline)}</p>`
+                : '';
+            const statusHtml = job.status && job.status.trim()
+                ? `<span class="badge-open">${escapeAttr(job.status)}</span>`
+                : '';
+
+            return `
+                <div class="job-card" data-category="${escapeAttr(job.category)}">
+                    <div class="card-top">
+                        <h3 class="job-title">${escapeAttr(job.title)}</h3>
+                        ${statusHtml}
+                    </div>
+                    <div class="job-info">
+                        ${orgHtml}
+                        ${deadlineHtml}
+                    </div>
+                    <button type="button" class="btn"
+                        data-title="${escapeAttr(job.title)}"
+                        data-org="${escapeAttr(job.org)}"
+                        data-deadline="${escapeAttr(job.deadline)}"
+                        data-req="${escapeAttr(job.req)}"
+                        data-url="${escapeAttr(job.applyUrl || DEFAULT_APPLY_URL)}"
+                        onclick="openJobFromBtn(this)">إقرا التفاصيل وسجل</button>
+                </div>
+            `;
+        }).join('');
+    }
+
+    function setCategory(category, cardElement) {
+        selectedCategory = category;
+        document.querySelectorAll('.sector-card').forEach(card => card.classList.remove('active'));
+        if (cardElement) cardElement.classList.add('active');
+        renderJobs();
+    }
+
+    function filterJobs() { renderJobs(); }
+
+    function openJobFromBtn(btn) {
+        openJobModal(
+            btn.getAttribute('data-title'),
+            btn.getAttribute('data-org'),
+            btn.getAttribute('data-deadline'),
+            btn.getAttribute('data-req'),
+            btn.getAttribute('data-url')
+        );
+    }
+
+    function toggleField(rowId, spanId, value) {
+        const row = document.getElementById(rowId);
+        const span = document.getElementById(spanId);
+        if (value && value.trim()) {
+            span.textContent = value.trim();
+            row.style.display = 'block';
+        } else {
+            span.textContent = '';
+            row.style.display = 'none';
+        }
+    }
+
+    function openJobModal(title, org, deadline, req, applyUrl) {
+        const finalUrl = (applyUrl && applyUrl.trim()) ? applyUrl.trim() : DEFAULT_APPLY_URL;
+        localStorage.setItem('selectedJob', JSON.stringify({
+            title: title || '',
+            org: org || '',
+            deadline: deadline || '',
+            req: req || '',
+            applyUrl: finalUrl
+        }));
+        document.getElementById('modalTitle').textContent = title || '';
+        toggleField('modalOrgRow', 'modalOrg', org);
+        toggleField('modalDeadlineRow', 'modalDeadline', deadline);
+        toggleField('modalReqRow', 'modalReq', req);
+        document.getElementById('modalApplyLink').href = finalUrl;
+        document.getElementById('jobModal').style.display = 'flex';
+    }
+
+    function closeJobModal() { document.getElementById('jobModal').style.display = 'none'; }
+    function closeModalOnBackdrop(event) { if (event.target.id === 'jobModal') closeJobModal(); }
+
+    loadJobs();
+    </script>
+</body>
+</html>
