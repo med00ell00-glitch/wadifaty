@@ -6,6 +6,9 @@
     <title>Wadifaty.ma - البوابة الأولى لمتابعة مباريات التوظيف بالمغرب</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        * {
+            box-sizing: border-box;
+        }
         body {
             font-family: Tahoma, sans-serif;
             background-color: #f4f7f6;
@@ -28,7 +31,7 @@
             font-size: 16px;
         }
         .search-box {
-            width: 85%;
+            width: 100%;
             max-width: 500px;
             padding: 12px 18px;
             font-size: 15px;
@@ -39,7 +42,7 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
         .container {
-            width: 88%;
+            width: 90%;
             max-width: 900px;
             margin: 30px auto;
         }
@@ -110,13 +113,13 @@
             font-weight: bold;
             font-size: 14px;
             cursor: pointer;
+            text-align: center;
         }
         .btn:hover {
             background-color: #142a3d;
         }
         .btn-secondary {
             background-color: #2e6f40;
-            margin-left: 8px;
         }
         .btn-secondary:hover {
             background-color: #225430;
@@ -135,6 +138,8 @@
             background: white;
             width: 100%;
             max-width: 550px;
+            max-height: 90vh;
+            overflow-y: auto;
             border-radius: 10px;
             padding: 24px;
             box-shadow: 0 8px 25px rgba(0,0,0,0.25);
@@ -157,7 +162,7 @@
         .modal-box h3 {
             margin: 0 0 12px;
             color: #1e3d59;
-            padding-left: 30px;
+            padding-left: 34px;
         }
         .modal-box p {
             margin: 8px 0;
@@ -165,11 +170,30 @@
             font-size: 14px;
             line-height: 1.6;
         }
+        .modal-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 18px;
+        }
+        .modal-actions .btn {
+            margin-top: 0;
+        }
+        .no-results {
+            display: none;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            color: #555;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+            margin-bottom: 20px;
+        }
         footer {
             background-color: #1e3d59;
             color: white;
             text-align: center;
-            padding: 20px;
+            padding: 20px 15px;
             margin-top: 40px;
         }
         footer a {
@@ -181,13 +205,42 @@
         footer a:hover {
             text-decoration: underline;
         }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 26px;
+            }
+            header p {
+                font-size: 14px;
+            }
+            .container {
+                width: 94%;
+                margin: 20px auto;
+            }
+            .job-card {
+                padding: 16px;
+            }
+            .job-title {
+                font-size: 17px;
+            }
+            .filter-btn {
+                padding: 7px 13px;
+                font-size: 13px;
+            }
+            .modal-box {
+                padding: 18px;
+            }
+            .modal-actions .btn {
+                flex: 1 1 100%;
+            }
+        }
     </style>
 </head>
 <body>
     <header>
         <h1>Wadifaty.ma</h1>
         <p>البوابة الأولى لمتابعة مباريات التوظيف بالمغرب</p>
-        <div style="margin-top: 15px;">
+        <div style="margin-top: 15px; padding: 0 5px;">
             <input type="text" id="searchBox" class="search-box" placeholder="ابحث عن مباراة أو قطاع (مثلاً: الصحة، التعليم، 11...)" onkeyup="filterJobs()">
         </div>
     </header>
@@ -200,6 +253,10 @@
             <button type="button" class="filter-btn" onclick="setCategory('عمومية', this)">وظائف عمومية</button>
             <button type="button" class="filter-btn" onclick="setCategory('الصحة', this)">الصحة</button>
             <button type="button" class="filter-btn" onclick="setCategory('التعليم', this)">التعليم</button>
+        </div>
+
+        <div id="noResults" class="no-results">
+            لا توجد مباريات مطابقة للبحث أو التصنيف المختار حالياً.
         </div>
 
         <div class="job-card" data-category="عمومية">
@@ -252,7 +309,7 @@
             <p><strong>المؤسسة:</strong> <span id="modalOrg"></span></p>
             <p><strong>آخر أجل لإيداع الترشيحات:</strong> <span id="modalDeadline"></span></p>
             <p><strong>شروط الترشيح الأساسية:</strong> <span id="modalReq"></span></p>
-            <div style="margin-top: 18px;">
+            <div class="modal-actions">
                 <a href="job-details.html" class="btn btn-secondary">الذهاب لصفحة التسجيل والتفاصيل</a>
                 <button type="button" class="btn" onclick="closeJobModal()">إغلاق</button>
             </div>
@@ -262,12 +319,13 @@
     <footer>
         <p style="margin: 0 0 10px; font-size: 14px;">جميع الحقوق محفوظة &copy; 2026 - Wadifaty.ma</p>
         <div>
+            <a href="index.html">الرئيسية</a>
             <a href="about.html">من نحن</a>
             <a href="contact.html">اتصل بنا</a>
         </div>
     </footer>
 
-   <script>
+    <script>
     let selectedCategory = 'all';
 
     function setCategory(category, btnElement) {
@@ -280,13 +338,19 @@
     function filterJobs() {
         let input = document.getElementById('searchBox').value.toLowerCase().trim();
         let jobs = document.querySelectorAll('.job-card');
+        let visibleCount = 0;
+
         jobs.forEach(job => {
             let text = job.textContent.toLowerCase();
             let category = job.getAttribute('data-category') || '';
             let matchesSearch = text.includes(input);
             let matchesCategory = (selectedCategory === 'all') || text.includes(selectedCategory.toLowerCase()) || category.includes(selectedCategory);
-            job.style.display = (matchesSearch && matchesCategory) ? "" : "none";
+            let show = matchesSearch && matchesCategory;
+            job.style.display = show ? "" : "none";
+            if (show) visibleCount++;
         });
+
+        document.getElementById('noResults').style.display = visibleCount === 0 ? "block" : "none";
     }
 
     function openJobModal(title, org, deadline, req) {
