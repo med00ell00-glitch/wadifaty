@@ -1,10 +1,12 @@
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
   const { message } = req.body;
-  if (!message) {
+  if (!message || !String(message).trim()) {
     return res.status(400).json({ error: 'الرسالة فارغة' });
   }
 
@@ -29,42 +31,65 @@ export default async function handler(req, res) {
 - خلي الجواب مفيد ومباشر بلا تطويل ممل.
 `;
 
-  try {
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${apiKey}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          system_instruction: {
-            parts: [{ text: systemInstruction }]
-          },
-          contents: [
-            {
-              role: 'user',
-              parts: [{ text: message }]
-            }
-          ],
-          generationConfig: {
-            temperature: 0.5,
-            maxOutputTokens: 600
-          }
-        })
-      }
-    );
+  const model = 'gemini-3.8-flash';
+  const delays = [0, 600, 1200];
+  let lastError = 'المساعد كيعرف ضغط مؤقت دابا، عاود جرب من بعد ثواني.';
 
-    const data = await response.json();
-
-    if (!response.ok) {
-      return res.status(500).json({ error: data.error?.message || 'وقع خطأ في الاتصال' });
+  for (let i = 0; i < delays.length; i++) {
+    if (delays[i] > 0) {
+      await sleep(delays[i]);
     }
 
-    const reply =
-      data.candidates?.[0]?.content?.parts?.[0]?.text ||
-      'عذراً، ما قدرتش نجاوب دابا. عاود جرب مرة أخرى.';
+    try {
+      const response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            system_instruction: {
+              parts: [{ text: systemInstruction }]
+            },
+            contents: [
+              {
+                role: 'user',
+                parts: [{ text: String(message).trim() }]
+              }
+            ],
+            generationConfig: {
+              temperature: 0.5,
+              maxOutputTokens: 600
+            }
+          })
+        }
+      );
 
-    return res.status(200).json({ reply });
-  } catch (err) {
-    return res.status(500).json({ error: 'مشكل تقني في السيرفر' });
+      const data = await response.json();
+
+      if (response.ok) {
+        const reply =
+          data.candidates?.[0]?.content?.parts?.[0]?.text ||
+          'عذراً، ما قدرتش نجاوب دابا. عاود جرب مرة أخرى.';
+        return res.status(200).json({ reply });
+      }
+
+      const apiErr = data.error?.message || lastError;
+      lastError = apiErr;
+
+      const isTransientDemand =
+        response.status === 503 ||
+        response.status === 429 ||
+        /high demand|overloaded|temporarily unavailable|try again/i.test(apiErr);
+
+      if (!isTransientDemand) {
+        return res.status(500).json({ error: apiErr });
+      }
+    } catch (err) {
+      lastError = 'مشكل تقني مؤقت في الاتصال بالسيرفر، عاود جرب من بعد شوية.';
+    }
   }
+
+  return res.status(503).json({
+    error: 'الموديل كيعرف ضغط مؤقت دابا من عند Google، عاود صيفط الرسالة من بعد شوية.'
+  });
 }
