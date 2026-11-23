@@ -701,25 +701,26 @@
 </div>
 
 <script>
+let lastAiPrompt = '';
+
   function toggleAiChat() {
     const box = document.getElementById('ai-chat-box');
     box.style.display = box.style.display === 'flex' ? 'none' : 'flex';
   }
 
-  async function sendAiMessage(e) {
-    e.preventDefault();
-    const input = document.getElementById('ai-chat-input');
-    const messages = document.getElementById('ai-chat-messages');
+  function escapeAiHtml(str) {
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+  }
+
+  async function requestAiReply(text, targetEl, retryBtnEl) {
     const sendBtn = document.getElementById('ai-chat-send');
-    const text = input.value.trim();
-    if (!text) return;
-
-    messages.innerHTML += `<div class="ai-msg user">${text.replace(/</g, '&lt;')}</div>`;
-    input.value = '';
+    const messages = document.getElementById('ai-chat-messages');
     sendBtn.disabled = true;
-
-    const loadingId = 'loading-' + Date.now();
-    messages.innerHTML += `<div id="${loadingId}" class="ai-msg bot">جاري التفكير... ⏳</div>`;
+    if (retryBtnEl) retryBtnEl.disabled = true;
+    targetEl.textContent = 'جاري التفكير... ⏳';
     messages.scrollTop = messages.scrollHeight;
 
     try {
@@ -729,23 +730,54 @@
         body: JSON.stringify({ message: text })
       });
       const data = await res.json();
-      const loadingEl = document.getElementById(loadingId);
-      if (data.reply) {
-        loadingEl.textContent = data.reply;
+      if (res.ok && data.reply) {
+        targetEl.textContent = data.reply;
       } else {
-        loadingEl.textContent = 'وقع مشكل بسيط: ' + (data.error || 'عاود جرب من بعد.');
+        const errText = data.error || 'عاود جرب من بعد.';
+        targetEl.innerHTML =
+          `وقع مشكل بسيط: ${escapeAiHtml(errText)}<br>` +
+          `<button type="button" class="ai-retry-btn" onclick="retryLastAiMessage(this)">🔄 إعادة المحاولة</button>`;
       }
     } catch (err) {
-      const loadingEl = document.getElementById(loadingId);
-      loadingEl.textContent = 'تعذر الاتصال بالمساعد حالياً، تأكد من الأنترنت وعاود جرب.';
+      targetEl.innerHTML =
+        `تعذر الاتصال بالمساعد حالياً، تأكد من الأنترنت وعاود جرب.<br>` +
+        `<button type="button" class="ai-retry-btn" onclick="retryLastAiMessage(this)">🔄 إعادة المحاولة</button>`;
     } finally {
       sendBtn.disabled = false;
       messages.scrollTop = messages.scrollHeight;
     }
   }
+
+  function retryLastAiMessage(btnEl) {
+    if (!lastAiPrompt) return;
+    const bubbleEl = btnEl.closest('.ai-msg');
+    if (bubbleEl) {
+      requestAiReply(lastAiPrompt, bubbleEl, btnEl);
+    }
+  }
+
+  async function sendAiMessage(e) {
+    e.preventDefault();
+    const input = document.getElementById('ai-chat-input');
+    const messages = document.getElementById('ai-chat-messages');
+    const text = input.value.trim();
+    if (!text) return;
+
+    lastAiPrompt = text;
+    messages.innerHTML += `<div class="ai-msg user">${escapeAiHtml(text)}</div>`;
+    input.value = '';
+
+    const loadingId = 'loading-' + Date.now();
+    messages.innerHTML += `<div id="${loadingId}" class="ai-msg bot">جاري التفكير... ⏳</div>`;
+    messages.scrollTop = messages.scrollHeight;
+
+    const loadingEl = document.getElementById(loadingId);
+    await requestAiReply(text, loadingEl, null);
+  }
 </script>
 </body>
 </html>
+
 
 
 
