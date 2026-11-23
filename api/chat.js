@@ -91,8 +91,8 @@ export default async function handler(req, res) {
     }
   }
 
-  return res.status(503).json({
-    error: 'الخدمة مشغولة شوية دابا، عاود جرب من بعد شوية.',
-    details: lastError
-  });
+ return res.status(503).json({
+  error: lastError || 'الخدمة مشغولة شوية دابا، عاود جرب من بعد شوية.',
+  details: lastError
+});
 }
