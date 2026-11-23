@@ -589,6 +589,7 @@
     align-items: center;
     gap: 8px;
     font-family: inherit;
+    transition: opacity 0.2s ease, transform 0.2s ease;
   }
   #ai-chat-box {
     position: fixed;
@@ -650,6 +651,22 @@
     color: #fff;
     align-self: flex-end;
   }
+  .ai-retry-btn {
+    margin-top: 8px;
+    background: #0ea5e9;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .ai-retry-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
   #ai-chat-form {
     display: flex;
     padding: 10px;
@@ -678,16 +695,44 @@
     cursor: pointer;
     font-family: inherit;
   }
+
+  @media (max-width: 600px) {
+    body {
+      padding-bottom: 70px;
+    }
+    #ai-chat-btn {
+      bottom: 14px;
+      left: 14px;
+      width: 48px;
+      height: 48px;
+      padding: 0;
+      border-radius: 50%;
+      font-size: 20px;
+      justify-content: center;
+      opacity: 0.65;
+    }
+    #ai-chat-btn .ai-btn-label {
+      display: none;
+    }
+    #ai-chat-btn:hover,
+    #ai-chat-btn:focus,
+    #ai-chat-btn:active {
+      opacity: 1;
+      transform: scale(1.05);
+    }
+    #ai-chat-box {
+      bottom: 72px;
+      left: 14px;
+      height: 70vh;
+      max-height: 460px;
+    }
+  }
 </style>
 
-<button id="ai-chat-btn" type="button" onclick="toggleAiChat()">
-  🧠 سول المساعد الذكي
+<button id="ai-chat-btn" type="button" onclick="toggleAiChat()" aria-label="سول المساعد الذكي">
+  <span>🧠</span>
+  <span class="ai-btn-label">سول المساعد الذكي</span>
 </button>
-
-<div id="ai-chat-box">
-  <div id="ai-chat-header">
-    <span>مساعد Wadifaty الذكي بالدارجة</span>
-    <button id="ai-chat-close" type="button" onclick="toggleAiChat()">×</button>
   </div>
   <div id="ai-chat-messages">
     <div class="ai-msg bot">مرحبا بيك في Wadifaty.ma! 👋
@@ -777,6 +822,7 @@ let lastAiPrompt = '';
 </script>
 </body>
 </html>
+
 
 
 
