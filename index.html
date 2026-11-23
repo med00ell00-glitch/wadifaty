@@ -748,9 +748,14 @@
 <script>
 let lastAiPrompt = '';
 
-  function toggleAiChat() {
+ function toggleAiChat() {
     const box = document.getElementById('ai-chat-box');
-    box.style.display = box.style.display === 'flex' ? 'none' : 'flex';
+    const btn = document.getElementById('ai-chat-btn');
+    const isOpen = box.style.display === 'flex';
+    box.style.display = isOpen ? 'none' : 'flex';
+    if (btn) {
+      btn.style.display = isOpen ? 'flex' : 'none';
+    }
   }
 
   function escapeAiHtml(str) {
@@ -822,6 +827,7 @@ let lastAiPrompt = '';
 </script>
 </body>
 </html>
+
 
 
 
