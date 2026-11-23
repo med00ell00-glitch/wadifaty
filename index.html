@@ -34,6 +34,32 @@
             text-align: right;
             margin-top: 14px;
         }
+        .quick-keywords {
+            max-width: 640px;
+            margin: 12px auto 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 7px;
+        }
+        .quick-label {
+            font-size: 12px;
+            color: #dce8f3;
+        }
+        .kw-chip {
+            background: rgba(255, 255, 255, 0.14);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            border-radius: 20px;
+            padding: 4px 11px;
+            font-size: 12px;
+            cursor: pointer;
+            font-family: Tahoma, sans-serif;
+        }
+        .kw-chip:hover {
+            background: rgba(255, 255, 255, 0.26);
+        }
         .container {
             width: 90%;
             max-width: 920px;
@@ -78,21 +104,38 @@
             border: 1px solid #dce5ee;
             border-right: 4px solid #1b6b3a;
             border-radius: 8px;
-            padding: 12px 15px;
+            padding: 14px 16px;
             margin-bottom: 20px;
             align-items: center;
             justify-content: space-between;
-            gap: 10px;
+            gap: 12px;
             flex-wrap: wrap;
+        }
+        .ministry-info {
+            flex: 1 1 320px;
+        }
+        .ministry-name {
+            display: block;
+            color: #1e3d59;
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+        .ministry-desc {
+            margin: 0;
+            color: #555;
+            font-size: 12.5px;
+            line-height: 1.55;
         }
         .ministry-link {
             background: #1b6b3a;
             color: white;
             text-decoration: none;
-            padding: 7px 13px;
+            padding: 8px 14px;
             border-radius: 6px;
             font-size: 13px;
             font-weight: bold;
+            white-space: nowrap;
         }
         .job-card {
             background: white;
@@ -194,6 +237,16 @@
         <h1>Wadifaty.ma</h1>
         <p>البوابة الأولى لمتابعة مباريات التوظيف بالمغرب</p>
         <input type="text" id="searchBox" class="search-box" placeholder="ابحث عن مباراة، وزارة أو تخصص..." onkeyup="renderJobs()">
+        <div class="quick-keywords">
+            <span class="quick-label">كلمات مفتاحية:</span>
+            <button type="button" class="kw-chip" onclick="useKeyword('تقني')">تقني</button>
+            <button type="button" class="kw-chip" onclick="useKeyword('متصرف')">متصرف</button>
+            <button type="button" class="kw-chip" onclick="useKeyword('سلم 9')">سلم 9</button>
+            <button type="button" class="kw-chip" onclick="useKeyword('سلم 11')">سلم 11</button>
+            <button type="button" class="kw-chip" onclick="useKeyword('القانون العام')">القانون العام</button>
+            <button type="button" class="kw-chip" onclick="useKeyword('فاس')">فاس</button>
+            <button type="button" class="kw-chip" onclick="useKeyword('')">مسح البحث</button>
+        </div>
     </header>
 
     <div class="container">
@@ -233,7 +286,10 @@
         </div>
 
         <div id="ministryBar" class="ministry-bar">
-            <span id="ministryBarText"></span>
+            <div class="ministry-info">
+                <span id="ministryBarText" class="ministry-name"></span>
+                <p id="ministryBarDesc" class="ministry-desc"></p>
+            </div>
             <a id="ministryBarLink" href="#" target="_blank" rel="noopener noreferrer" class="ministry-link">الموقع الرسمي للوزارة</a>
         </div>
 
@@ -282,11 +338,31 @@
     <script>
     var DEFAULT_URL = "https://www.emploi-public.ma/ar/";
     var ministries = {
-        "الداخلية": { name: "البوابة الوطنية للجماعات الترابية (collectivites-territoriales.gov.ma)", url: "https://collectivites-territoriales.gov.ma" },
-        "القضائ": { name: "وزارة العدل (justice.gov.ma)", url: "https://justice.gov.ma" },
-        "الصحة": { name: "وزارة الصحة والحماية الاجتماعية (sante.gov.ma)", url: "https://www.sante.gov.ma" },
-        "التعليم": { name: "جامعة سيدي محمد بن عبد الله بفاس (usmba.ac.ma) / بوابة التشغيل العمومي", url: "https://www.usmba.ac.ma" },
-        "عمومية": { name: "وزارة الاقتصاد والمالية - المؤسسات والمقاولات العمومية (finances.gov.ma)", url: "https://www.finances.gov.ma" }
+        "الداخلية": {
+            name: "وزارة الداخلية والجماعات الترابية (collectivites-territoriales.gov.ma)",
+            desc: "تتولى تدبير الإدارة الترابية، مواكبة الجماعات الترابية، السهر على الأمن والنظام العام وتنفيذ السياسات العمومية على المستوى المحلي والجهوي.",
+            url: "https://collectivites-territoriales.gov.ma"
+        },
+        "القضائ": {
+            name: "وزارة العدل (justice.gov.ma)",
+            desc: "تُعنى بتدبير الشأن الإداري والمالي للمحاكم، إعداد النصوص التشريعية والتنظيمية ذات الطابع القضائي، وتأطير المهن والأطر القضائية والإدارية.",
+            url: "https://justice.gov.ma"
+        },
+        "الصحة": {
+            name: "وزارة الصحة والحماية الاجتماعية (sante.gov.ma)",
+            desc: "تسهر على تنفيذ السياسة الصحية الوطنية، تدبير المستشفيات والمراكز الصحية، وتطوير منظومة العلاج والوقاية والحماية الاجتماعية.",
+            url: "https://www.sante.gov.ma"
+        },
+        "التعليم": {
+            name: "التعليم العالي والجامعات (usmba.ac.ma)",
+            desc: "تشرف على التكوين الجامعي والبحث العلمي وتدبير المؤسسات والمعاهد العليا والأطر الإدارية والتقنية والتربوية.",
+            url: "https://www.usmba.ac.ma"
+        },
+        "عمومية": {
+            name: "الإدارات والمؤسسات العمومية (finances.gov.ma)",
+            desc: "تشمل الوزارات والقطاعات المالية والاقتصادية والمؤسسات والمقاولات العمومية التي تدبر الموارد العمومية والمشاريع والمرافق الإدارية والتقنية.",
+            url: "https://www.finances.gov.ma"
+        }
     };
     var fallbackJobs = [
         {
@@ -350,11 +426,19 @@
             .replace(/>/g, "&gt;");
     }
 
+    function useKeyword(kw) {
+        var box = document.getElementById("searchBox");
+        box.value = kw;
+        renderJobs();
+        box.focus();
+    }
+
     function updateMinistry() {
         var bar = document.getElementById("ministryBar");
         var m = ministries[currentCat];
         if (m) {
             document.getElementById("ministryBarText").textContent = "الموقع الرسمي للقطاع: " + m.name;
+            document.getElementById("ministryBarDesc").textContent = m.desc;
             document.getElementById("ministryBarLink").href = m.url;
             bar.style.display = "flex";
         } else {
