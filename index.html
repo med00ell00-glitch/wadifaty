@@ -727,17 +727,160 @@
       max-height: 460px;
     }
   }
+<!-- زر ونافذة المساعد الذكي -->
+<style>
+  #ai-chat-btn {
+    position: fixed;
+    bottom: 18px;
+    left: 18px;
+    background: #1d4ed8;
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    padding: 10px 16px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: inherit;
+  }
+  #ai-chat-box {
+    position: fixed;
+    bottom: 72px;
+    left: 18px;
+    width: 340px;
+    max-width: calc(100vw - 36px);
+    height: 430px;
+    max-height: calc(100vh - 100px);
+    background: #1e293b;
+    color: #f8fafc;
+    border: 1px solid #334155;
+    border-radius: 14px;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 9999;
+    direction: rtl;
+  }
+  #ai-chat-header {
+    background: #0f172a;
+    padding: 11px 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #334155;
+    font-weight: bold;
+    font-size: 14px;
+  }
+  #ai-chat-close {
+    background: none;
+    border: none;
+    color: #94a3b8;
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+  }
+  #ai-chat-messages {
+    flex: 1;
+    padding: 12px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 14px;
+    line-height: 1.55;
+  }
+  .ai-msg {
+    padding: 9px 12px;
+    border-radius: 12px;
+    max-width: 86%;
+    white-space: pre-line;
+    word-break: break-word;
+  }
+  .ai-msg.bot {
+    background: #334155;
+    color: #f1f5f9;
+    align-self: flex-start;
+  }
+  .ai-msg.user {
+    background: #2563eb;
+    color: #fff;
+    align-self: flex-end;
+  }
+  #ai-chat-form {
+    display: flex;
+    padding: 9px;
+    gap: 6px;
+    background: #0f172a;
+    border-top: 1px solid #334155;
+  }
+  #ai-chat-input {
+    flex: 1;
+    min-width: 0;
+    background: #1e293b;
+    border: 1px solid #475569;
+    border-radius: 8px;
+    padding: 8px 10px;
+    color: #fff;
+    font-size: 14px;
+    outline: none;
+    font-family: inherit;
+  }
+  #ai-chat-send {
+    background: #2563eb;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-weight: bold;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  @media (max-width: 600px) {
+    body {
+      padding-bottom: 68px;
+    }
+    #ai-chat-btn {
+      bottom: 14px;
+      left: 14px;
+      width: 46px;
+      height: 46px;
+      padding: 0;
+      border-radius: 50%;
+      justify-content: center;
+      font-size: 19px;
+      opacity: 0.75;
+    }
+    #ai-chat-btn .ai-btn-label {
+      display: none;
+    }
+    #ai-chat-box {
+      bottom: 16px;
+      left: 14px;
+      height: 68vh;
+    }
+  }
 </style>
 
 <button id="ai-chat-btn" type="button" onclick="toggleAiChat()" aria-label="سول المساعد الذكي">
   <span>🧠</span>
   <span class="ai-btn-label">سول المساعد الذكي</span>
 </button>
+
+<div id="ai-chat-box">
+  <div id="ai-chat-header">
+    <span>مساعد Wadifaty الذكي بالدارجة</span>
+    <button id="ai-chat-close" type="button" onclick="toggleAiChat()">×</button>
   </div>
   <div id="ai-chat-messages">
     <div class="ai-msg bot">مرحبا بيك في Wadifaty.ma! 👋
-سولني بالدارجة على أي مباراة، تكوين مهني، منحة، دعم اجتماعي، أو وثيقة إدارية.
-مثال: "عندي الباك وبغيت تكوين مجاني ففاس"</div>
+سولني بالدارجة على أي مباراة، تكوين مهني، منحة، دعم اجتماعي، أو وثيقة إدارية.</div>
   </div>
   <form id="ai-chat-form" onsubmit="sendAiMessage(event)">
     <input id="ai-chat-input" type="text" placeholder="اكتب سؤالك بالدارجة هنا..." required />
@@ -746,15 +889,13 @@
 </div>
 
 <script>
-let lastAiPrompt = '';
-
- function toggleAiChat() {
+  function toggleAiChat() {
     const box = document.getElementById('ai-chat-box');
     const btn = document.getElementById('ai-chat-btn');
-    const isOpen = box.style.display === 'flex';
-    box.style.display = isOpen ? 'none' : 'flex';
+    const willOpen = box.style.display !== 'flex';
+    box.style.display = willOpen ? 'flex' : 'none';
     if (btn) {
-      btn.style.display = isOpen ? 'flex' : 'none';
+      btn.style.display = willOpen ? 'none' : 'flex';
     }
   }
 
@@ -765,12 +906,20 @@ let lastAiPrompt = '';
       .replace(/>/g, '&gt;');
   }
 
-  async function requestAiReply(text, targetEl, retryBtnEl) {
-    const sendBtn = document.getElementById('ai-chat-send');
+  async function sendAiMessage(e) {
+    e.preventDefault();
+    const input = document.getElementById('ai-chat-input');
     const messages = document.getElementById('ai-chat-messages');
+    const sendBtn = document.getElementById('ai-chat-send');
+    const text = input.value.trim();
+    if (!text) return;
+
+    messages.innerHTML += `<div class="ai-msg user">${escapeAiHtml(text)}</div>`;
+    input.value = '';
     sendBtn.disabled = true;
-    if (retryBtnEl) retryBtnEl.disabled = true;
-    targetEl.textContent = 'جاري التفكير... ⏳';
+
+    const loadingId = 'ai-loading-' + Date.now();
+    messages.innerHTML += `<div id="${loadingId}" class="ai-msg bot">جاري التفكير...</div>`;
     messages.scrollTop = messages.scrollHeight;
 
     try {
@@ -780,53 +929,24 @@ let lastAiPrompt = '';
         body: JSON.stringify({ message: text })
       });
       const data = await res.json();
+      const el = document.getElementById(loadingId);
       if (res.ok && data.reply) {
-        targetEl.textContent = data.reply;
+        el.textContent = data.reply;
       } else {
-        const errText = data.error || 'عاود جرب من بعد.';
-        targetEl.innerHTML =
-          `وقع مشكل بسيط: ${escapeAiHtml(errText)}<br>` +
-          `<button type="button" class="ai-retry-btn" onclick="retryLastAiMessage(this)">🔄 إعادة المحاولة</button>`;
+        el.textContent = 'الخدمة مشغولة شوية دابا، عاود جرب من بعد شوية.';
       }
     } catch (err) {
-      targetEl.innerHTML =
-        `تعذر الاتصال بالمساعد حالياً، تأكد من الأنترنت وعاود جرب.<br>` +
-        `<button type="button" class="ai-retry-btn" onclick="retryLastAiMessage(this)">🔄 إعادة المحاولة</button>`;
+      const el = document.getElementById(loadingId);
+      el.textContent = 'تعذر الاتصال بالمساعد دابا، عاود جرب من بعد شوية.';
     } finally {
       sendBtn.disabled = false;
       messages.scrollTop = messages.scrollHeight;
     }
   }
-
-  function retryLastAiMessage(btnEl) {
-    if (!lastAiPrompt) return;
-    const bubbleEl = btnEl.closest('.ai-msg');
-    if (bubbleEl) {
-      requestAiReply(lastAiPrompt, bubbleEl, btnEl);
-    }
-  }
-
-  async function sendAiMessage(e) {
-    e.preventDefault();
-    const input = document.getElementById('ai-chat-input');
-    const messages = document.getElementById('ai-chat-messages');
-    const text = input.value.trim();
-    if (!text) return;
-
-    lastAiPrompt = text;
-    messages.innerHTML += `<div class="ai-msg user">${escapeAiHtml(text)}</div>`;
-    input.value = '';
-
-    const loadingId = 'loading-' + Date.now();
-    messages.innerHTML += `<div id="${loadingId}" class="ai-msg bot">جاري التفكير... ⏳</div>`;
-    messages.scrollTop = messages.scrollHeight;
-
-    const loadingEl = document.getElementById(loadingId);
-    await requestAiReply(text, loadingEl, null);
-  }
 </script>
 </body>
 </html>
+
 
 
 
