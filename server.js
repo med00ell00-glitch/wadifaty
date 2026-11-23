@@ -25,5 +25,8 @@ app.get('/about.html', (req, res) => {
 app.get('/contact.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'contact.html'));
 });
-
+// صفحة سياسة الخصوصية
+app.get('/privacy-policy.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'privacy-policy.html'));
+});
 module.exports = app;
