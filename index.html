@@ -390,30 +390,6 @@
             deadline: "",
             req: "التخصصات المطلوبة: الهندسة المدنية أو الأشغال الكبرى أو الأشغال العمومية، أو الهندسة الكهربائية (30 منصباً - توظيف نظامي - رمز المباراة: 44743/26).",
             applyUrl: "https://www.emploi-public.ma/ar/تفاصيل/المباريات/f13bac44-60cc-4ed5-897a-905111afbeb2"
-        },
-        {
-            title: "مباراة توظيف متصرفين من الدرجة الثانية (تخصص القانون العام والإدارة الترابية)",
-            category: "الداخلية",
-            org: "وزارة الداخلية / الجماعات الترابية والمؤسسات العمومية",
-            deadline: "",
-            req: "الحصول على الإجازة أو ماستر في القانون العام أو العلوم القانونية أو ما يعادلها.",
-            applyUrl: DEFAULT_URL
-        },
-        {
-            title: "مباراة توظيف تقنيين من الدرجة الثالثة (سلم 9)",
-            category: "الصحة",
-            org: "وزارة الصحة والحماية الاجتماعية",
-            deadline: "05 دجنبر 2026",
-            req: "دبلوم التقني المتخصص أو شهادة معادلة في التخصص المطلوب.",
-            applyUrl: DEFAULT_URL
-        },
-        {
-            title: "مباراة توظيف متصرفين من الدرجة الثانية (سلم 11)",
-            category: "عمومية",
-            org: "إدارات ومؤسسات عمومية مختلفة",
-            deadline: "30 نونبر 2026",
-            req: "الحصول على الإجازة أو ماستر أو شهادة معترف بها.",
-            applyUrl: DEFAULT_URL
         }
     ];
     var jobsData = fallbackJobs.slice();
@@ -485,4 +461,19 @@
     }
 
     function openModalFromBtn(b) {
-        document
+        document.getElementById("modalTitle").textContent = b.getAttribute("data-title") || "";
+        var org = b.getAttribute("data-org") || "";
+        var dl = b.getAttribute("data-deadline") || "";
+        var req = b.getAttribute("data-req") || "";
+        document.getElementById("modalOrg").textContent = org;
+        document.getElementById("modalOrgRow").style.display = org ? "block" : "none";
+        document.getElementById("modalDeadline").textContent = dl;
+        document.getElementById("modalDeadlineRow").style.display = dl ? "block" : "none";
+        document.getElementById("modalReq").textContent = req;
+        document.getElementById("modalReqRow").style.display = req ? "block" : "none";
+        document.getElementById("modalApplyLink").href = b.getAttribute("data-url") || DEFAULT_URL;
+        document.getElementById("modalUniLink").style.display = org.indexOf("سيدي محمد بن عبد الله") !== -1 ? "inline-block" : "none";
+        document.getElementById("jobModal").style.display = "flex";
+    }
+
+    function cl
