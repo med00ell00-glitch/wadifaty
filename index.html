@@ -476,4 +476,25 @@
         document.getElementById("jobModal").style.display = "flex";
     }
 
-    function cl
+    function closeModal() {
+        document.getElementById("jobModal").style.display = "none";
+    }
+
+    function initJobs() {
+        updateMinistry();
+        renderJobs();
+        fetch("./jobs.json?v=" + Date.now())
+            .then(function(res) { return res.ok ? res.json() : null; })
+            .then(function(json) {
+                if (Array.isArray(json) && json.length > 0) {
+                    jobsData = json;
+                    renderJobs();
+                }
+            })
+            .catch(function() {});
+    }
+
+    initJobs();
+    </script>
+</body>
+</html>
