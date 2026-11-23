@@ -29,42 +29,63 @@ export default async function handler(req, res) {
 - خلي الجواب مفيد ومباشر بلا تطويل ممل.
 `;
 
-  try {
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${apiKey}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          system_instruction: {
-            parts: [{ text: systemInstruction }]
-          },
-          contents: [
-            {
-              role: 'user',
-              parts: [{ text: message }]
+  const modelsToTry = [
+    'gemini-3.8-flash',
+    'gemini-3.8-flash-lite',
+    'gemini-2.5-flash'
+  ];
+
+  let lastError = 'وقع خطأ في الاتصال';
+
+  for (const model of modelsToTry) {
+    try {
+      const response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            system_instruction: {
+              parts: [{ text: systemInstruction }]
+            },
+            contents: [
+              {
+                role: 'user',
+                parts: [{ text: message }]
+              }
+            ],
+            generationConfig: {
+              temperature: 0.5,
+              maxOutputTokens: 600
             }
-          ],
-          generationConfig: {
-            temperature: 0.5,
-            maxOutputTokens: 600
-          }
-        })
+          })
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        const reply =
+          data.candidates?.[0]?.content?.parts?.[0]?.text ||
+          'عذراً، ما قدرتش نجاوب دابا. عاود جرب مرة أخرى.';
+        return res.status(200).json({ reply });
       }
-    );
 
-    const data = await response.json();
+      lastError = data.error?.message || lastError;
 
-    if (!response.ok) {
-      return res.status(500).json({ error: data.error?.message || 'وقع خطأ في الاتصال' });
+      const isBusyOrUnsupported =
+        response.status === 503 ||
+        response.status === 429 ||
+        response.status === 404 ||
+        /high demand|overloaded|not found|no longer available/i.test(lastError);
+
+      if (!isBusyOrUnsupported) {
+        return res.status(500).json({ error: lastError });
+      }
+    } catch (err) {
+      lastError = 'مشكل تقني في السيرفر';
     }
-
-    const reply =
-      data.candidates?.[0]?.content?.parts?.[0]?.text ||
-      'عذراً، ما قدرتش نجاوب دابا. عاود جرب مرة أخرى.';
-
-    return res.status(200).json({ reply });
-  } catch (err) {
-    return res.status(500).json({ error: 'مشكل تقني في السيرفر' });
   }
+
+  return res.status(500).json({ error: lastError });
 }
