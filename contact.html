@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>اتصل بنا - Wadifaty.ma</title>
+    <link rel="icon" href="data:,">
     <style>
+        * { box-sizing: border-box; }
         body {
             font-family: Tahoma, sans-serif;
             background-color: #f4f7f6;
@@ -15,58 +17,65 @@
         header {
             background-color: #1e3d59;
             color: white;
-            padding: 20px;
+            padding: 26px 15px;
             text-align: center;
         }
-        header h1 {
-            margin: 0;
-            font-size: 28px;
-        }
+        header h1 { margin: 0; font-size: 30px; }
+        header p { margin: 8px 0 0; font-size: 15px; }
         .container {
-            width: 88%;
-            max-width: 850px;
+            width: 90%;
+            max-width: 780px;
             margin: 30px auto;
         }
         .card {
-            background-color: white;
+            background: white;
             padding: 24px;
-            border-radius: 8px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+            border-right: 4px solid #1e3d59;
         }
         .card h2 {
             margin-top: 0;
             color: #1e3d59;
-            font-size: 21px;
+            font-size: 20px;
         }
         .card p {
             color: #444;
-            font-size: 15px;
             line-height: 1.7;
+            font-size: 14.5px;
+            margin: 10px 0;
+        }
+        .actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 18px;
         }
         .btn {
             display: inline-block;
-            margin-top: 15px;
-            padding: 10px 18px;
-            background-color: #1e3d59;
+            padding: 10px 16px;
+            background: #1e3d59;
             color: white;
             text-decoration: none;
-            border-radius: 5px;
+            border-radius: 6px;
             font-weight: bold;
-            font-size: 14px;
+            font-size: 13.5px;
+        }
+        .btn-secondary {
+            background: #1b6b3a;
+        }
+        .btn-light {
+            background: #eef3f8;
+            color: #1e3d59;
         }
         footer {
-            background-color: #1e3d59;
+            background: #1e3d59;
             color: white;
             text-align: center;
-            padding: 18px;
+            padding: 18px 15px;
             margin-top: 40px;
         }
-        footer a {
-            color: white;
-            text-decoration: none;
-            margin: 0 10px;
-            font-weight: bold;
-        }
+        footer a { color: white; text-decoration: none; margin: 0 10px; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -78,14 +87,18 @@
     <div class="container">
         <div class="card">
             <h2>تواصل معنا</h2>
-            <p>لأي استفسار، اقتراح، أو ملاحظة بخصوص المنصة أو الإعلانات المنشورة، يمكنكم التواصل معنا عبر البريد الإلكتروني الرسمي:</p>
-            <p style="direction: ltr; text-align: right;"><strong>contact@wadifaty.ma</strong></p>
-            <a href="index.html" class="btn">الرجوع إلى الصفحة الرئيسية</a>
+            <p>لأي استفسار، اقتراح، أو ملاحظة بخصوص المنصة أو الإعلانات المنشورة، يمكنكم التواصل معنا عبر البريد الإلكتروني الرسمي: <strong>wadifaty.contact@gmail.com</strong> أو عبر نموذج التواصل المباشر.</p>
+
+            <div class="actions">
+                <a href="mailto:wadifaty.contact@gmail.com?subject=تواصل%20من%20منصة%20Wadifaty.ma" class="btn">مراسلتنا عبر البريد الإلكتروني</a>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSf83koO3zd-6b8vSxiZ0wvTdGUkwErGocoiX9jNOaCC0tivuw/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">نموذج التواصل المباشر (Google Form)</a>
+                <a href="index.html" class="btn btn-light">الرجوع إلى الصفحة الرئيسية</a>
+            </div>
         </div>
     </div>
 
     <footer>
-        <p style="margin: 0 0 8px; font-size: 14px;">جميع الحقوق محفوظة &copy; 2026 - Wadifaty.ma</p>
+        <p style="margin: 0 0 8px; font-size: 13.5px;">جميع الحقوق محفوظة &copy; 2026 - Wadifaty.ma</p>
         <div>
             <a href="index.html">الرئيسية</a>
             <a href="about.html">من نحن</a>
