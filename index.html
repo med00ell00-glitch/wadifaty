@@ -264,6 +264,7 @@
             <p id="modalReqRow"><strong>شروط الترشيح:</strong> <span id="modalReq"></span></p>
             <div style="margin-top: 14px; display: flex; gap: 8px; flex-wrap: wrap;">
                 <a id="modalApplyLink" href="https://www.emploi-public.ma/ar/" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">الذهاب إلى إعلان المباراة</a>
+                <a id="modalUniLink" href="https://www.usmba.ac.ma" target="_blank" rel="noopener noreferrer" class="btn" style="display:none;">الموقع الرسمي للجامعة</a>
                 <button type="button" class="btn" onclick="closeModal()">إغلاق</button>
             </div>
         </div>
@@ -401,6 +402,7 @@
         document.getElementById("modalReq").textContent = req;
         document.getElementById("modalReqRow").style.display = req ? "block" : "none";
         document.getElementById("modalApplyLink").href = b.getAttribute("data-url") || DEFAULT_URL;
+        document.getElementById("modalUniLink").style.display = org.indexOf("سيدي محمد بن عبد الله") !== -1 ? "inline-block" : "none";
         document.getElementById("jobModal").style.display = "flex";
     }
 
