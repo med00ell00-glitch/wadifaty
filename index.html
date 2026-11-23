@@ -933,7 +933,8 @@
       if (res.ok && data.reply) {
         el.textContent = data.reply;
       } else {
-        el.textContent = 'الخدمة مشغولة شوية دابا، عاود جرب من بعد شوية.';
+        } else {
+        el.textContent = data.error || 'الخدمة مشغولة شوية دابا، عاود جرب من بعد شوية.';
       }
     } catch (err) {
       const el = document.getElementById(loadingId);
@@ -946,6 +947,7 @@
 </script>
 </body>
 </html>
+
 
 
 
