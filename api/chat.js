@@ -26,7 +26,7 @@ export default async function handler(req, res) {
 - إذا سألك شخص عن مباراة جديدة، قلّيه يتقلب في قائمة المباريات في الصفحة أو في الموقع الرسمي emploi-public.ma.
 - خلّي الجواب مفيد ومباشر بلا تطويل ممل.`;
 
-  const models = ['gemini-3.8-flash', 'gemini-2.5-flash'];
+  const models = ['gemini-3.8-flash'];
   const delays = [0, 600];
   let lastError = 'الخدمة مشغولة شوية دابا، عاود جرب من بعد شوية.';
 
