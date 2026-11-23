@@ -85,14 +85,13 @@ export default async function handler(req, res) {
           return res.status(response.status).json({ error: apiErr });
         }
       } catch (err) {
-        lastError = err?.message || 'مشكل تقني مؤقت في الاتصال بالسيرفر';
+        lastError = 'الخدمة مشغولة شوية دابا، عاود جرب من بعد شوية.';
         console.error(`Network error (${model}):`, lastError);
       }
     }
   }
 
- return res.status(503).json({
-  error: lastError || 'الخدمة مشغولة شوية دابا، عاود جرب من بعد شوية.',
-  details: lastError
+return res.status(503).json({
+  error: 'الخدمة مشغولة شوية دابا، عاود جرب من بعد شوية.'
 });
 }
