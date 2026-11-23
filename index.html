@@ -35,7 +35,7 @@
             margin-top: 14px;
         }
         .quick-keywords {
-            max-width: 640px;
+            max-width: 720px;
             margin: 12px auto 0;
             display: flex;
             flex-wrap: wrap;
@@ -245,6 +245,8 @@
             <button type="button" class="kw-chip" onclick="useKeyword('سلم 11')">سلم 11</button>
             <button type="button" class="kw-chip" onclick="useKeyword('القانون العام')">القانون العام</button>
             <button type="button" class="kw-chip" onclick="useKeyword('فاس')">فاس</button>
+            <button type="button" class="kw-chip" onclick="useKeyword('التعليم')">التعليم</button>
+            <button type="button" class="kw-chip" onclick="useKeyword('الصحة')">الصحة</button>
             <button type="button" class="kw-chip" onclick="useKeyword('')">مسح البحث</button>
         </div>
     </header>
@@ -483,40 +485,4 @@
     }
 
     function openModalFromBtn(b) {
-        document.getElementById("modalTitle").textContent = b.getAttribute("data-title") || "";
-        var org = b.getAttribute("data-org") || "";
-        var dl = b.getAttribute("data-deadline") || "";
-        var req = b.getAttribute("data-req") || "";
-        document.getElementById("modalOrg").textContent = org;
-        document.getElementById("modalOrgRow").style.display = org ? "block" : "none";
-        document.getElementById("modalDeadline").textContent = dl;
-        document.getElementById("modalDeadlineRow").style.display = dl ? "block" : "none";
-        document.getElementById("modalReq").textContent = req;
-        document.getElementById("modalReqRow").style.display = req ? "block" : "none";
-        document.getElementById("modalApplyLink").href = b.getAttribute("data-url") || DEFAULT_URL;
-        document.getElementById("modalUniLink").style.display = org.indexOf("سيدي محمد بن عبد الله") !== -1 ? "inline-block" : "none";
-        document.getElementById("jobModal").style.display = "flex";
-    }
-
-    function closeModal() {
-        document.getElementById("jobModal").style.display = "none";
-    }
-
-    function initJobs() {
-        updateMinistry();
-        renderJobs();
-        fetch("./jobs.json?v=" + Date.now())
-            .then(function(res) { return res.ok ? res.json() : null; })
-            .then(function(json) {
-                if (Array.isArray(json) && json.length > 0) {
-                    jobsData = json;
-                    renderJobs();
-                }
-            })
-            .catch(function() {});
-    }
-
-    initJobs();
-    </script>
-</body>
-</html>
+        document
