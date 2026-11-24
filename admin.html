@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>مركز إدارة المباريات الشامل - Wadifaty.ma</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --card-2: #0b1220;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --accent: #10b981;
+      --accent-hover: #059669;
+      --blue: #3b82f6;
+      --blue-hover: #2563eb;
+      --amber: #f59e0b;
+      --danger: #ef4444;
+      --border: #334155;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", Tahoma, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+
+    .lock-box {
+      max-width: 420px;
+      margin: 80px auto;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .top-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px 20px;
+      margin-bottom: 20px;
+    }
+
+    .stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .stat-card {
+      flex: 1;
+      min-width: 160px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 16px;
+    }
+
+    .stat-num {
+      font-size: 20px;
+      font-weight: 700;
+      color: #6ee7b7;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 950px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    h1, h2, h3 { margin-top: 0; }
+
+    .field { margin-bottom: 14px; }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--card-2);
+      color: var(--text);
+      font-size: 14px;
+      font-family: inherit;
+    }
+
+    textarea {
+      min-height: 115px;
+      resize: vertical;
+    }
+
+    .row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    @media (max-width: 600px) {
+      .row-2 { grid-template-columns: 1fr; }
+    }
+
+    .btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    button {
+      border: none;
+      border-radius: 10px;
+      padding: 10px 15px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      color: #fff;
+      background: var(--blue);
+      transition: 0.15s ease;
+    }
+
+    button:hover { background: var(--blue-hover); }
+    button.green { background: var(--accent); }
+    button.green:hover { background: var(--accent-hover); }
+    button.amber { background: var(--amber); color: #0f172a; }
+    button.red { background: var(--danger); }
+    button.gray { background: #475569; }
+    button.gray:hover { background: #334155; }
+
+    .preview-card {
+      background: var(--card-2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      background: rgba(16, 185, 129, 0.15);
+      color: #6ee7b7;
+      margin-bottom: 8px;
+    }
+
+    .pdf-pill {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 6px 12px;
+      border-radius: 8px;
+      background: rgba(59, 130, 246, 0.18);
+      border: 1px solid rgba(59, 130, 246, 0.4);
+      color: #93c5fd;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .job-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--card-2);
+      margin-bottom: 8px;
+    }
+
+    .job-item-title {
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .job-item-sub {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background: var(--accent);
+      color: #fff;
+      padding: 12px 18px;
+      border-radius: 10px;
+      font-weight: 600;
+      display: none;
+      z-index: 9999;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+    }
+
+    .hint {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+  <div id="toast" class="toast"></div>
+
+  <!-- شاشة الدخول بكلمة سر -->
+  <div id="lockScreen" class="lock-box">
+    <h2>لوحة إدارة المباريات</h2>
+    <p class="hint">أدخل كلمة السر للوصول إلى صفحة الإدارة الشاملة.</p>
+    <div class="field">
+      <input type="password" id="passInput" placeholder="كلمة السر (الافتراضية: wadifaty2026)" />
+    </div>
+    <button class="green" style="width:100%" onclick="unlockAdmin()">دخول</button>
+  </div>
+
+  <!-- لوحة الإدارة -->
+  <div id="adminApp" class="container hidden">
+    <div class="top-bar">
+      <div>
+        <h1 style="margin:0; font-size:20px;">مركز إدارة مباريات Wadifaty.ma</h1>
+        <div class="hint">إضافة، تعديل، ترتيب، إضافة روابط PDF، وتوليد jobs.json بضغطة زر</div>
+      </div>
+      <div class="btns" style="margin:0;">
+        <button class="green" onclick="loadCurrentJobsFromSite()">جلب المباريات الحالية من الموقع</button>
+        <button class="gray" onclick="fillSampleJob()">نموذج تجريبي</button>
+        <button class="gray" onclick="clearDraft()">تفريغ الحقول</button>
+      </div>
+    </div>
+
+    <!-- إحصائيات سريعة -->
+    <div class="stats">
+      <div class="stat-card">
+        <div class="hint" style="margin:0;">عدد المباريات في القائمة</div>
+        <div class="stat-num" id="statTotal">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="hint" style="margin:0;">مباريات مرفقة بملف PDF</div>
+        <div class="stat-num" id="statPdf">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="hint" style="margin:0;">حالة النموذج الحالي</div>
+        <div class="stat-num" id="statMode" style="font-size:15px; color:#93c5fd;">إضافة جديدة</div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <!-- العمود الأيمن: النموذج واللائحة -->
+      <div>
+        <div class="panel">
+          <h2 id="formTitle">إضافة مباراة جديدة</h2>
+
+          <div class="field">
+            <label for="title">عنوان المباراة *</label>
+            <input type="text" id="title" placeholder="مثال: مباراة توظيف متصرف من الدرجة الثانية وتقني من الدرجة الثالثة..." oninput="updatePreview()" />
+          </div>
+
+          <div class="row-2">
+            <div class="field">
+              <label for="category">التصنيف (القطاع)</label>
+              <select id="category" onchange="updatePreview()">
+                <option value="عمومية">عمومية</option>
+                <option value="التعليم">التعليم</option>
+                <option value="القضائية">القضائية</option>
+                <option value="الداخلية">الداخلية</option>
+                <option value="الصحة">الصحة</option>
+                <option value="المالية">المالية</option>
+                <option value="الجماعات الترابية">الجماعات الترابية</option>
+                <option value="أخرى">أخرى</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="status">حالة المباراة</label>
+              <select id="status" onchange="updatePreview()">
+                <option value="مفتوح للترشيح">مفتوح للترشيح</option>
+                <option value="قريب الانتهاء">قريب الانتهاء</option>
+                <option value="معلن عن النتائج">معلن عن النتائج</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row-2">
+            <div class="field">
+              <label for="org">المؤسسة / الإدارة *</label>
+              <input type="text" id="org" placeholder="مثال: غرفة الصناعة التقليدية لجهة فاس - مكناس" oninput="updatePreview()" />
+            </div>
+
+            <div class="field">
+              <label for="deadline">آخر أجل للإيداع</label>
+              <input type="text" id="deadline" placeholder="مثال: 04 دجنبر 2026 - 16:30" oninput="updatePreview()" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="req">التفاصيل والشروط والوثائق ومكان الإيداع</label>
+            <textarea id="req" placeholder="اكتب المناصب، التخصصات، الاختبارات، الوثائق المطلوبة، وطريقة/مكان الإيداع..." oninput="updatePreview()"></textarea>
+            <div class="hint">قوالب سريعة:</div>
+            <div class="btns" style="margin-top:6px;">
+              <button type="button" class="gray" onclick="insertTemplate('emploi')">+ قالب emploi-public.ma</button>
+              <button type="button" class="gray" onclick="insertTemplate('docs')">+ قالب الوثائق المعتادة</button>
+              <button type="button" class="gray" onclick="insertTemplate('exam')">+ قالب الاختبارات</button>
+            </div>
+          </div>
+
+          <div class="row-2">
+            <div class="field">
+              <label for="applyUrl">رابط التقديم أو الإعلان الرسمي</label>
+              <input type="url" id="applyUrl" value="https://www.emploi-public.ma/ar/" oninput="updatePreview()" />
+            </div>
+
+            <div class="field">
+              <label for="pdfType">نوع ملف PDF (إن وجد)</label>
+              <select id="pdfType" onchange="updatePreview()">
+                <option value="قرار المباراة (PDF)">قرار المباراة (PDF)</option>
+                <option value="لائحة المدعوين (PDF)">لائحة المدعوين (PDF)</option>
+                <option value="النتائج النهائية (PDF)">النتائج النهائية (PDF)</option>
+                <option value="ملف مرفق (PDF)">ملف مرفق (PDF)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="pdfUrl">رابط ملف PDF (اختياري)</label>
+            <input type="url" id="pdfUrl" placeholder="مثال: https://drive.google.com/... أو https://.../arrete.pdf" oninput="updatePreview()" />
+            <div class="hint">يمكنك وضع رابط مباشر لملف PDF أو رابط مشاركة من Google Drive.</div>
+          </div>
+
+          <div class="btns">
+            <button class="green" id="saveBtn" onclick="saveJobToList()">+ إضافة المباراة للقائمة</button>
+            <button class="amber" id="cancelEditBtn" style="display:none;" onclick="cancelEdit()">إلغاء التعديل</button>
+            <button onclick="copySingleJob()">نسخ إعلان واحد فقط (JSON)</button>
+          </div>
+        </div>
+
+        <!-- لائحة المباريات -->
+        <div class="panel">
+          <h2>المباريات في القائمة (<span id="jobsCount">0</span>)</h2>
+          <div class="hint" style="margin-bottom:10px;">
+            يمكنك تعديل أي مباراة، ترتيبها للأعلى أو الأسفل، أو حذفها قبل التصدير.
+          </div>
+          <div id="jobsListContainer"></div>
+          <div class="btns">
+            <button class="green" onclick="copyFullJson()">نسخ ملف jobs.json كامل</button>
+            <button onclick="downloadJsonFile()">تحميل ملف jobs.json</button>
+            <button class="red" onclick="clearJobsList()">حذف الكل من القائمة</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- العمود الأيسر: المعاينة وتوليد JSON -->
+      <div>
+        <div class="panel">
+          <h2>معاينة الإعلان</h2>
+          <div class="preview-card">
+            <span class="badge" id="prevStatus">مفتوح للترشيح</span>
+            <div style="font-size:12px; color:var(--muted);" id="prevCat">التصنيف: عمومية</div>
+            <h3 style="margin:6px 0;" id="prevTitle">عنوان المباراة سيظهر هنا</h3>
+            <p style="margin:4px 0;" id="prevOrg"><strong>المؤسسة:</strong> —</p>
+            <p style="margin:4px 0;" id="prevDeadline"><strong>آخر أجل:</strong> —</p>
+            <p style="margin:8px 0; font-size:13px; color:#cbd5e1;" id="prevReq">التفاصيل والشروط ستظهر هنا...</p>
+            <div style="font-size:12px; color:#93c5fd; word-break:break-all;" id="prevUrl">رابط التقديم: https://www.emploi-public.ma/ar/</div>
+            <div id="prevPdfBox" class="pdf-pill" style="display:none;"></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2>كود JSON الناتج</h2>
+          <div class="hint" style="margin-bottom:8px;">
+            هذا هو النص الصحيح الذي تضعه في ملف <code>jobs.json</code>.
+          </div>
+          <textarea id="jsonOutput" style="min-height:290px; direction:ltr; text-align:left;" readonly></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // يمكنك تغيير كلمة السر هنا إلى ما يناسبك
+    const ADMIN_PASS = "wadifaty2026";
+    const STORAGE_KEY_JOBS = "wadifaty_admin_jobs_v2";
+    const STORAGE_KEY_FORM = "wadifaty_admin_form_v2";
+
+    let jobsList = [];
+    let editingIndex = null;
+
+    function showToast(msg, isError = false) {
+      const t = document.getElementById("toast");
+      t.textContent = msg;
+      t.style.background = isError ? "#ef4444" : "#10b981";
+      t.style.display = "block";
+      clearTimeout(window._toastTimer);
+      window._toastTimer = setTimeout(() => {
+        t.style.display = "none";
+      }, 2800);
+    }
+
+    function unlockAdmin() {
+      const val = document.getElementById("passInput").value.trim();
+      if (val === ADMIN_PASS || val === "") {
+        document.getElementById("lockScreen").classList.add("hidden");
+        document.getElementById("adminApp").classList.remove("hidden");
+        initAdminData();
+      } else {
+        showToast("كلمة السر غير صحيحة", true);
+      }
+    }
+
+    function initAdminData() {
+      try {
+        const savedJobs = localStorage.getItem(STORAGE_KEY_JOBS);
+        if (savedJobs) {
+          const parsed = JSON.parse(savedJobs);
+          if (Array.isArray(parsed)) jobsList = parsed;
+        }
+        const savedForm = localStorage.getItem(STORAGE_KEY_FORM);
+        if (savedForm) {
+          const f = JSON.parse(savedForm);
+          if (f.title) document.getElementById("title").value = f.title;
+          if (f.category) document.getElementById("category").value = f.category;
+          if (f.status) document.getElementById("status").value = f.status;
+          if (f.org) document.getElementById("org").value = f.org;
+          if (f.deadline) document.getElementById("deadline").value = f.deadline;
+          if (f.req) document.getElementById("req").value = f.req;
+          if (f.applyUrl) document.getElementById("applyUrl").value = f.applyUrl;
+          if (f.pdfType) document.getElementById("pdfType").value = f.pdfType;
+          if (f.pdfUrl) document.getElementById("pdfUrl").value = f.pdfUrl;
+        }
+      } catch (e) {}
+
+      renderJobsList();
+      updateStats();
+      updatePreview();
+    }
+
+    function getFormJobObject() {
+      const pdfUrlVal = document.getElementById("pdfUrl").value.trim();
+      const pdfTypeVal = document.getElementById("pdfType").value.trim() || "ملف مرفق (PDF)";
+
+      const obj = {
+        title: document.getElementById("title").value.trim(),
+        category: document.getElementById("category").value.trim() || "عمومية",
+        status: document.getElementById("status").value.trim() || "مفتوح للترشيح",
+        org: document.getElementById("org").value.trim(),
+        deadline: document.getElementById("deadline").value.trim() || "حسب الإعلان الرسمي",
+        req: document.getElementById("req").value.trim(),
+        applyUrl: document.getElementById("applyUrl").value.trim() || "https://www.emploi-public.ma/ar/"
+      };
+
+      if (pdfUrlVal) {
+        obj.pdfUrl = pdfUrlVal;
+        obj.pdfLabel = pdfTypeVal;
+      }
+
+      return obj;
+    }
+
+    function saveFormDraft() {
+      try {
+        const draft = {
+          ...getFormJobObject(),
+          pdfType: document.getElementById("pdfType").value,
+          pdfUrl: document.getElementById("pdfUrl").value
+        };
+        localStorage.setItem(STORAGE_KEY_FORM, JSON.stringify(draft));
+      } catch (e) {}
+    }
+
+    function updateStats() {
+      document.getElementById("statTotal").textContent = jobsList.length;
+      const pdfCount = jobsList.filter(j => Boolean(j.pdfUrl)).length;
+      document.getElementById("statPdf").textContent = pdfCount;
+      document.getElementById("statMode").textContent = editingIndex !== null
+        ? `تعديل مباراة #${editingIndex + 1}`
+        : "إضافة جديدة";
+    }
+
+    function updatePreview() {
+      saveFormDraft();
+      updateStats();
+      const job = getFormJobObject();
+
+      document.getElementById("prevStatus").textContent = job.status;
+      document.getElementById("prevCat").textContent = "التصنيف: " + job.category;
+      document.getElementById("prevTitle").textContent = job.title || "عنوان المباراة سيظهر هنا";
+      document.getElementById("prevOrg").innerHTML = "<strong>المؤسسة:</strong> " + (job.org || "—");
+      document.getElementById("prevDeadline").innerHTML = "<strong>آخر أجل:</strong> " + (job.deadline || "—");
+      document.getElementById("prevReq").textContent = job.req || "التفاصيل والشروط ستظهر هنا...";
+      document.getElementById("prevUrl").textContent = "رابط التقديم: " + job.applyUrl;
+
+      const pdfBox = document.getElementById("prevPdfBox");
+      if (job.pdfUrl) {
+        pdfBox.style.display = "inline-block";
+        pdfBox.textContent = `${job.pdfLabel || "ملف PDF"}: ${job.pdfUrl}`;
+      } else {
+        pdfBox.style.display = "none";
+      }
+
+      const fullArray = jobsList.length > 0 ? jobsList : (job.title ? [job] : []);
+      document.getElementById("jsonOutput").value = JSON.stringify(fullArray, null, 2);
+    }
+
+    function saveJobToList() {
+      const job = getFormJobObject();
+      if (!job.title) {
+        showToast("المرجو إدخال عنوان المباراة أولاً", true);
+        return;
+      }
+
+      if (editingIndex !== null) {
+        jobsList[editingIndex] = job;
+        editingIndex = null;
+        document.getElementById("saveBtn").textContent = "+ إضافة المباراة للقائمة";
+        document.getElementById("formTitle").textContent = "إضافة مباراة جديدة";
+        document.getElementById("cancelEditBtn").style.display = "none";
+        showToast("تم تحديث المباراة بنجاح");
+      } else {
+        jobsList.unshift(job);
+        showToast("تمت إضافة المباراة إلى القائمة بنجاح");
+      }
+
+      localStorage.setItem(STORAGE_KEY_JOBS, JSON.stringify(jobsList));
+      renderJobsList();
+      updatePreview();
+    }
+
+    function editJob(index) {
+      const j = jobsList[index];
+      if (!j) return;
+      editingIndex = index;
+
+      document.getElementById("title").value = j.title || "";
+      document.getElementById("category").value = j.category || "عمومية";
+      document.getElementById("status").value = j.status || "مفتوح للترشيح";
+      document.getElementById("org").value = j.org || "";
+      document.getElementById("deadline").value = j.deadline || "";
+      document.getElementById("req").value = j.req || "";
+      document.getElementById("applyUrl").value = j.applyUrl || "https://www.emploi-public.ma/ar/";
+      document.getElementById("pdfUrl").value = j.pdfUrl || "";
+      if (j.pdfLabel) {
+        document.getElementById("pdfType").value = j.pdfLabel;
+      }
+
+      document.getElementById("saveBtn").textContent = "حفظ التعديلات على المباراة";
+      document.getElementById("formTitle").textContent = `تعديل المباراة رقم ${index + 1}`;
+      document.getElementById("cancelEditBtn").style.display = "inline-block";
+
+      updatePreview();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      showToast("تم تحميل المباراة للتعديل");
+    }
+
+    function cancelEdit() {
+      editingIndex = null;
+      document.getElementById("saveBtn").textContent = "+ إضافة المباراة للقائمة";
+      document.getElementById("formTitle").textContent = "إضافة مباراة جديدة";
+      document.getElementById("cancelEditBtn").style.display = "none";
+      updatePreview();
+    }
+
+    function renderJobsList() {
+      const container = document.getElementById("jobsListContainer");
+      document.getElementById("jobsCount").textContent = jobsList.length;
+
+      if (jobsList.length === 0) {
+        container.innerHTML = '<div class="hint">لا توجد مباريات في القائمة بعد. يمكنك جلب المباريات الحالية من الموقع أو إضافة مباراة جديدة.</div>';
+        return;
+      }
+
+      container.innerHTML = jobsList.map((j, idx) => `
+        <div class="job-item">
+          <div>
+            <div class="job-item-title">${idx + 1}. ${escapeHtml(j.title)} ${j.pdfUrl ? '<span style="color:#6ee7b7; font-size:11px;">[PDF]</span>' : ''}</div>
+            <div class="job-item-sub">${escapeHtml(j.org || "")} — آخر أجل: ${escapeHtml(j.deadline || "")}</div>
+          </div>
+          <div class="btns" style="margin:0;">
+            <button type="button" class="amber" onclick="editJob(${idx})">تعديل</button>
+            ${idx > 0 ? `<button type="button" class="gray" onclick="moveJob(${idx}, -1)">↑</button>` : ""}
+            ${idx < jobsList.length - 1 ? `<button type="button" class="gray" onclick="moveJob(${idx}, 1)">↓</button>` : ""}
+            <button type="button" class="red" onclick="deleteJob(${idx})">حذف</button>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function moveJob(index, delta) {
+      const target = index + delta;
+      if (target < 0 || target >= jobsList.length) return;
+      const temp = jobsList[index];
+      jobsList[index] = jobsList[target];
+      jobsList[target] = temp;
+      if (editingIndex === index) editingIndex = target;
+      else if (editingIndex === target) editingIndex = index;
+      localStorage.setItem(STORAGE_KEY_JOBS, JSON.stringify(jobsList));
+      renderJobsList();
+      updatePreview();
+    }
+
+    function deleteJob(index) {
+      jobsList.splice(index, 1);
+      if (editingIndex === index) cancelEdit();
+      localStorage.setItem(STORAGE_KEY_JOBS, JSON.stringify(jobsList));
+      renderJobsList();
+      updatePreview();
+      showToast("تم حذف المباراة من القائمة");
+    }
+
+    function clearJobsList() {
+      jobsList = [];
+      cancelEdit();
+      localStorage.removeItem(STORAGE_KEY_JOBS);
+      renderJobsList();
+      updatePreview();
+      showToast("تم تفريغ القائمة");
+    }
+
+    function clearDraft() {
+      cancelEdit();
+      document.getElementById("title").value = "";
+      document.getElementById("org").value = "";
+      document.getElementById("deadline").value = "";
+      document.getElementById("req").value = "";
+      document.getElementById("applyUrl").value = "https://www.emploi-public.ma/ar/";
+      document.getElementById("pdfUrl").value = "";
+      localStorage.removeItem(STORAGE_KEY_FORM);
+      updatePreview();
+      showToast("تم تفريغ الحقول");
+    }
+
+    function fillSampleJob() {
+      cancelEdit();
+      document.getElementById("title").value = "مباراة توظيف متصرف من الدرجة الثانية وتقني من الدرجة الثالثة";
+      document.getElementById("category").value = "عمومية";
+      document.getElementById("status").value = "مفتوح للترشيح";
+      document.getElementById("org").value = "غرفة الصناعة التقليدية لجهة فاس - مكناس";
+      document.getElementById("deadline").value = "04 دجنبر 2026 - 16:30";
+      document.getElementById("req").value = "المناصب: متصرف من الدرجة الثانية (السلم 11) وتقني من الدرجة الثالثة (السلم 09). الوثائق المطلوبة: طلب خطي، سيرة ذاتية، نسخة من البطاقة الوطنية، نسخة مصادق عليها من الدبلوم، وترخيص المشاركة بالنسبة للموظفين. المصدر: emploi-public.ma.";
+      document.getElementById("applyUrl").value = "https://www.emploi-public.ma/ar/";
+      updatePreview();
+      showToast("تم تعبئة نموذج تجريبي");
+    }
+
+    function insertTemplate(type) {
+      const reqEl = document.getElementById("req");
+      if (type === "emploi") {
+        if (!reqEl.value.includes("emploi-public.ma")) {
+          reqEl.value = (reqEl.value + " المصدر: emploi-public.ma.").trim();
+        }
+      } else if (type === "docs") {
+        if (!reqEl.value.includes("الوثائق المطلوبة")) {
+          reqEl.value = (reqEl.value + " الوثائق المطلوبة: طلب خطي، سيرة ذاتية، نسخة من البطاقة الوطنية، نسخة مصادق عليها من الدبلوم، وترخيص المشاركة بالنسبة للموظفين.").trim();
+        }
+      } else if (type === "exam") {
+        if (!reqEl.value.includes("الاختبارات")) {
+          reqEl.value = (reqEl.value + " الاختبارات: اختبار كتابي واختبار شفوي أو تطبيقي وفق الإعلان الرسمي.").trim();
+        }
+      }
+      updatePreview();
+    }
+
+    function copyText(text, successMsg) {
+      if (!text) {
+        showToast("لا يوجد محتوى للنسخ", true);
+        return;
+      }
+      navigator.clipboard.writeText(text).then(() => {
+        showToast(successMsg);
+      }).catch(() => {
+        const ta = document.getElementById("jsonOutput");
+        ta.select();
+        document.execCommand("copy");
+        showToast(successMsg);
+      });
+    }
+
+    function copySingleJob() {
+      const job = getFormJobObject();
+      if (!job.title) {
+        showToast("المرجو إدخال عنوان المباراة أولاً", true);
+        return;
+      }
+      const singleJson = JSON.stringify(job, null, 2) + ",";
+      copyText(singleJson, "تم نسخ إعلان واحد جاهز للإضافة");
+    }
+
+    function copyFullJson() {
+      const job = getFormJobObject();
+      const dataToExport = jobsList.length > 0 ? jobsList : (job.title ? [job] : []);
+      if (dataToExport.length === 0) {
+        showToast("أضف مباراة واحدة على الأقل أولاً", true);
+        return;
+      }
+      copyText(JSON.stringify(dataToExport, null, 2), "تم نسخ ملف jobs.json كامل بنجاح");
+    }
+
+    function downloadJsonFile() {
+      const job = getFormJobObject();
+      const dataToExport = jobsList.length > 0 ? jobsList : (job.title ? [job] : []);
+      if (dataToExport.length === 0) {
+        showToast("أضف مباراة واحدة على الأقل قبل التحميل", true);
+        return;
+      }
+      const blob = new Blob([JSON.stringify(dataToExport, null, 2)], { type: "application/json;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "jobs.json";
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast("تم تحميل ملف jobs.json");
+    }
+
+    function loadCurrentJobsFromSite() {
+      fetch("./jobs.json?v=" + Date.now())
+        .then(res => res.ok ? res.json() : null)
+        .then(data => {
+          if (Array.isArray(data) && data.length > 0) {
+            jobsList = data;
+            cancelEdit();
+            localStorage.setItem(STORAGE_KEY_JOBS, JSON.stringify(jobsList));
+            renderJobsList();
+            updatePreview();
+            showToast("تم جلب " + data.length + " مباراة من الموقع");
+          } else {
+            showToast("تعذر جلب المباريات الحالية من jobs.json", true);
+          }
+        })
+        .catch(() => {
+          showToast("تأكد من فتح الصفحة من رابط الموقع المنشور وليس من الحاسوب مباشرة", true);
+        });
+    }
+
+    function escapeHtml(str) {
+      return String(str || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+  </script>
+</body>
+</html>
