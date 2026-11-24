@@ -53,5 +53,8 @@ app.get('/contact.html', (req, res) => {
 app.get('/privacy-policy.html', (req, res) => {
   res.sendFile(path.join(__dirname, 'privacy-policy.html'));
 });
-
+// ملف المباريات JSON //
+app.get('/jobs.json', (req, res) => {
+  res.sendFile(path.join(__dirname, 'jobs.json'));
+});
 module.exports = app;
