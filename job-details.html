@@ -127,6 +127,24 @@
             if (job.org) document.getElementById('jobOrg').textContent = job.org;
             if (job.deadline) document.getElementById('jobDeadline').textContent = job.deadline;
             if (job.req) document.getElementById('jobReq').textContent = job.req;
+            if (job.pdfUrl) {
+  const safeUrl = String(job.pdfUrl).trim();
+  if (/^https?:\/\//i.test(safeUrl) || safeUrl.startsWith('/')) {
+    const pdfLink = document.createElement('a');
+    pdfLink.href = safeUrl;
+    pdfLink.target = '_blank';
+    pdfLink.rel = 'noopener noreferrer';
+    pdfLink.textContent = job.pdfLabel || 'تحميل ملف PDF';
+    pdfLink.style.display = 'inline-block';
+    pdfLink.style.marginTop = '14px';
+    pdfLink.style.padding = '10px 18px';
+    pdfLink.style.backgroundColor = '#1e3d59';
+    pdfLink.style.color = '#ffffff';
+    pdfLink.style.borderRadius = '6px';
+    pdfLink.style.textDecoration = 'none';
+    document.querySelector('.container')?.appendChild(pdfLink);
+  }
+}
         } catch (e) {}
     }
     </script>
